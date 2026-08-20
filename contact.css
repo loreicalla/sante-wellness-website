@@ -1,0 +1,66 @@
+/* Extra contact and mobile polish */
+.contact-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.contact-number {
+  margin-top: 20px !important;
+  font-weight: 600;
+  text-align: center;
+}
+
+.contact-number a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.floating-whatsapp {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: #176b4a;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.floating-whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .22);
+}
+
+@media (max-width: 700px) {
+  .contact-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    width: min(100%, 340px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contact-buttons .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .floating-whatsapp {
+    right: 16px;
+    bottom: 16px;
+    min-height: 48px;
+    padding: 0 17px;
+    font-size: .92rem;
+  }
+}
