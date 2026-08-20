@@ -42,3 +42,15 @@ const navObserver = new IntersectionObserver(entries => {
   });
 }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
 sections.forEach(section => navObserver.observe(section));
+
+// Official SANTÉ Wellness International Facebook destination
+const facebookUrl = 'https://web.facebook.com/SanteWellnessInternational/';
+
+document.querySelectorAll('a').forEach(link => {
+  const label = link.textContent.trim().toLowerCase();
+  if (label.includes('facebook') || label.includes('message us')) {
+    link.href = facebookUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  }
+});
