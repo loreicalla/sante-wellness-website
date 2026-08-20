@@ -87,3 +87,24 @@ cards.forEach(function (card) {
     observer.observe(card);
 
 });
+
+
+/* =========================================
+   FIX BARLICCINO PRODUCT IMAGE
+========================================= */
+
+document.querySelectorAll(".product-card").forEach(function (card) {
+
+    const title = card.querySelector("h3");
+    const imageContainer = card.querySelector(".product-image");
+
+    if (
+        title &&
+        imageContainer &&
+        title.textContent.trim() === "SANTÉ Barliccino"
+    ) {
+        imageContainer.innerHTML =
+            '<img src="images1/sante-barlicino.png" alt="SANTÉ Barliccino Cappuccino">';
+    }
+
+});
