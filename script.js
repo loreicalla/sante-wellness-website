@@ -43,14 +43,14 @@ const navObserver = new IntersectionObserver(entries => {
 }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
 sections.forEach(section => navObserver.observe(section));
 
-// Official SANTÉ Wellness International Facebook destination
-const facebookUrl = 'https://web.facebook.com/SanteWellnessInternational/';
-
-document.querySelectorAll('a').forEach(link => {
-  const label = link.textContent.trim().toLowerCase();
-  if (label.includes('facebook') || label.includes('message us')) {
-    link.href = facebookUrl;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-  }
-});
+// Add the Facebook contact button to the contact section.
+const contactButtons = document.querySelector('.contact-buttons');
+if (contactButtons && !contactButtons.querySelector('.facebook-contact-btn')) {
+  const facebookButton = document.createElement('a');
+  facebookButton.href = 'https://web.facebook.com/SanteWellnessInternational/';
+  facebookButton.target = '_blank';
+  facebookButton.rel = 'noopener noreferrer';
+  facebookButton.className = 'btn btn-primary facebook-contact-btn';
+  facebookButton.textContent = 'Message Us on Facebook';
+  contactButtons.prepend(facebookButton);
+}
