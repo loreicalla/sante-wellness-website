@@ -1,3 +1,12 @@
+// Load additional contact styling without changing the main stylesheet.
+if (!document.querySelector('link[data-contact-styles]')) {
+  const contactStyles = document.createElement('link');
+  contactStyles.rel = 'stylesheet';
+  contactStyles.href = 'contact.css';
+  contactStyles.dataset.contactStyles = 'true';
+  document.head.append(contactStyles);
+}
+
 const menuToggle = document.getElementById('menuToggle');
 const navLinks = document.getElementById('navLinks');
 
