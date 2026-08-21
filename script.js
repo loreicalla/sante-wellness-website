@@ -36,13 +36,14 @@ if ('IntersectionObserver' in window) {
 }
 
 const whatsappUrl = 'https://api.whatsapp.com/send?phone=639613552176';
+const viberUrl = 'viber://chat?number=%2B639613552176';
 
 const contactButtons = document.querySelector('.contact-buttons');
 if (contactButtons) {
   const contacts = [
     ['facebook-contact-btn','https://web.facebook.com/SanteWellnessInternational/','Message Us on Facebook','btn btn-primary facebook-contact-btn'],
     ['whatsapp-contact-btn', whatsappUrl,'Chat on WhatsApp','btn btn-primary whatsapp-contact-btn'],
-    ['viber-contact-btn','viber://chat?number=%2B639613552176','Chat on Viber','btn btn-outline viber-contact-btn']
+    ['viber-contact-btn',viberUrl,'Chat on Viber','btn btn-outline viber-contact-btn']
   ];
   contacts.forEach(([name, href, label, className]) => {
     if (contactButtons.querySelector(`.${name}`)) return;
@@ -102,7 +103,7 @@ if (!document.getElementById('santeChat')) {
       products: 'You can explore the featured SANTÉ wellness, coffee, beauty, and personal-care products on this website. For the current collection, you can also visit Lore’s SANTÉ partner shop.',
       business: 'The website introduces a flexible opportunity to become a SANTÉ partner, share products, learn the system, and build a community. For details, Lore can guide you directly.',
       order: 'To explore or order available products, visit Lore’s SANTÉ partner shop. If you need help choosing, you can contact Lore first.',
-      lore: 'You can message Lore directly on Facebook, WhatsApp, or Viber using the contact options below.',
+      lore: 'Choose how you would like to contact Lore:',
       whatsapp: 'Opening WhatsApp so you can chat with Lore directly.',
       facebook: 'Opening the SANTÉ Wellness International Facebook page.'
     };
@@ -111,8 +112,20 @@ if (!document.getElementById('santeChat')) {
     if (topic === 'whatsapp') window.open(whatsappUrl, '_blank', 'noopener');
     if (topic === 'facebook') window.open('https://web.facebook.com/SanteWellnessInternational/', '_blank', 'noopener');
     const bot = document.createElement('div'); bot.className = 'sante-message bot'; bot.textContent = replies[topic]; body.append(bot);
+
+    if (topic === 'lore') {
+      const choices = document.createElement('div');
+      choices.className = 'sante-chat-options sante-contact-choices';
+      choices.innerHTML = `
+        <a class="sante-chat-action" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">💬 Chat on WhatsApp</a>
+        <a class="sante-chat-action" href="${viberUrl}">📱 Chat on Viber</a>
+      `;
+      body.append(choices);
+    }
     if (['products','order'].includes(topic)) { const a=document.createElement('a'); a.className='sante-chat-action'; a.href='https://partner.mysante.com/wealthylore'; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Explore the SANTÉ Shop →'; body.append(a); }
-    if (['business','lore'].includes(topic)) { const a=document.createElement('a'); a.className='sante-chat-action'; a.href=whatsappUrl; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Chat with Lore →'; body.append(a); }
+    if (topic === 'business') {
+      const a=document.createElement('a'); a.className='sante-chat-action'; a.href=whatsappUrl; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Chat with Lore →'; body.append(a);
+    }
     body.scrollTop = body.scrollHeight;
   });
 }
