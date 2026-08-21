@@ -129,3 +129,34 @@ if (!document.getElementById('santeChat')) {
     body.scrollTop = body.scrollHeight;
   });
 }
+
+// Connect every product card to Lore's exact SANTÉ partner product page.
+const productLinks = {
+  'SANTÉ Barley Canister': 'https://partner.mysante.com/p/storefront-sphn01005?ref=MTUyODc5&country=PH&cart=premium',
+  'SANTÉ Barley Jar': 'https://partner.mysante.com/p/storefront-sphn01005?ref=MTUyODc5&country=PH&cart=premium',
+  'SANTÉ Barley Powder': 'https://partner.mysante.com/p/storefront-sphn01003?ref=MTUyODc5&country=PH&cart=premium',
+  'SANTÉ Barley Fusion': 'https://partner.mysante.com/p/storefront-sphb01001?ref=MTUyODc5&country=PH&cart=premium',
+  'SANTÉ Barliccino': 'https://partner.mysante.com/p/storefront-spho02001?ref=MTUyODc5&country=PH&cart=premium',
+  'SANTÉ Boost': 'https://partner.mysante.com/p/storefront-sphb01002?ref=MTUyODc5&country=PH&cart=premium',
+  "SANTÉ Fit N' Trim": 'https://partner.mysante.com/p/storefront-sphb03001?ref=MTUyODc5&country=PH&cart=premium',
+  'SANTÉ Beauty Collagen + Barley': 'https://partner.mysante.com/p/storefront-sphk06001?ref=MTUyODc5&country=PH&cart=premium',
+  'Barley Trial Pack': 'https://partner.mysante.com/p/storefront-sphn01001?ref=MTUyODc5&country=PH&cart=regular',
+  'SANTÉ FibrEnergy': 'https://partner.mysante.com/p/storefront-spho01001?ref=MTUyODc5&country=PH&cart=premium',
+  'Moments Day Pads': 'https://partner.mysante.com/p/storefront-sphp01001?ref=MTUyODc5&country=PH&cart=premium',
+  'Moments Night Pads': 'https://partner.mysante.com/p/storefront-sphp01002?ref=MTUyODc5&country=PH&cart=premium',
+  'Moments Pantyliner': 'https://partner.mysante.com/p/storefront-sphp02001?ref=MTUyODc5&country=PH&cart=premium',
+  'SANTÉ Natural Toothpaste': 'https://partner.mysante.com/p/storefront-sphp03001?ref=MTUyODc5&country=PH&cart=premium'
+};
+
+document.querySelectorAll('.product-card').forEach(card => {
+  const title = card.querySelector('h3')?.textContent.trim();
+  const url = productLinks[title];
+  if (!url) return;
+  card.querySelectorAll('a').forEach(link => {
+    if (/explore|view product|shop now/i.test(link.textContent)) {
+      link.href = url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    }
+  });
+});
