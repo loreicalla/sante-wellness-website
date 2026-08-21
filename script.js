@@ -35,11 +35,13 @@ if ('IntersectionObserver' in window) {
   sections.forEach(section => navObserver.observe(section));
 }
 
+const whatsappUrl = 'https://api.whatsapp.com/send?phone=639613552176';
+
 const contactButtons = document.querySelector('.contact-buttons');
 if (contactButtons) {
   const contacts = [
     ['facebook-contact-btn','https://web.facebook.com/SanteWellnessInternational/','Message Us on Facebook','btn btn-primary facebook-contact-btn'],
-    ['whatsapp-contact-btn','https://wa.me/639613552176','Chat on WhatsApp','btn btn-primary whatsapp-contact-btn'],
+    ['whatsapp-contact-btn', whatsappUrl,'Chat on WhatsApp','btn btn-primary whatsapp-contact-btn'],
     ['viber-contact-btn','viber://chat?number=%2B639613552176','Chat on Viber','btn btn-outline viber-contact-btn']
   ];
   contacts.forEach(([name, href, label, className]) => {
@@ -54,12 +56,12 @@ const contactSection = document.querySelector('#contact .contact-content');
 if (contactSection && !contactSection.querySelector('.contact-number')) {
   const number = document.createElement('p');
   number.className = 'contact-number';
-  number.innerHTML = 'WhatsApp &amp; Viber: <a href="https://wa.me/639613552176" target="_blank" rel="noopener noreferrer">+63 961 355 2176</a>';
+  number.innerHTML = `WhatsApp &amp; Viber: <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">+63 961 355 2176</a>`;
   contactSection.append(number);
 }
 
 if (!document.querySelector('.floating-whatsapp')) {
-  const a = document.createElement('a'); a.href = 'https://wa.me/639613552176'; a.target = '_blank'; a.rel = 'noopener noreferrer';
+  const a = document.createElement('a'); a.href = whatsappUrl; a.target = '_blank'; a.rel = 'noopener noreferrer';
   a.className = 'floating-whatsapp'; a.setAttribute('aria-label', 'Chat with Lore on WhatsApp'); a.textContent = 'WhatsApp'; document.body.append(a);
 }
 
@@ -106,11 +108,11 @@ if (!document.getElementById('santeChat')) {
     };
     const body = chat.querySelector('.sante-chat-body');
     const user = document.createElement('div'); user.className = 'sante-message user'; user.textContent = button.textContent; body.append(user);
-    if (topic === 'whatsapp') window.open('https://wa.me/639613552176', '_blank', 'noopener');
+    if (topic === 'whatsapp') window.open(whatsappUrl, '_blank', 'noopener');
     if (topic === 'facebook') window.open('https://web.facebook.com/SanteWellnessInternational/', '_blank', 'noopener');
     const bot = document.createElement('div'); bot.className = 'sante-message bot'; bot.textContent = replies[topic]; body.append(bot);
     if (['products','order'].includes(topic)) { const a=document.createElement('a'); a.className='sante-chat-action'; a.href='https://partner.mysante.com/wealthylore'; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Explore the SANTÉ Shop →'; body.append(a); }
-    if (['business','lore'].includes(topic)) { const a=document.createElement('a'); a.className='sante-chat-action'; a.href='https://wa.me/639613552176'; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Chat with Lore →'; body.append(a); }
+    if (['business','lore'].includes(topic)) { const a=document.createElement('a'); a.className='sante-chat-action'; a.href=whatsappUrl; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent='Chat with Lore →'; body.append(a); }
     body.scrollTop = body.scrollHeight;
   });
 }
