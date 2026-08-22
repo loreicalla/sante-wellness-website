@@ -1,12 +1,12 @@
 const chatButtonStyle=document.createElement('style');chatButtonStyle.textContent=`
-/* Subtle but obvious chat launcher */
+/* Noticeable, premium chat launcher */
 .sante-chat{right:22px;bottom:24px;width:auto}
-.sante-chat-toggle{padding:10px 15px;border:1px solid rgba(23,107,66,.18);background:rgba(255,255,255,.88);color:#2f5845;font-size:.88rem;font-weight:750;box-shadow:0 8px 24px rgba(18,54,39,.10);backdrop-filter:blur(10px);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,background .2s ease}
-.sante-chat-toggle:hover{transform:translateY(-2px);background:#fff;border-color:rgba(23,107,66,.38);box-shadow:0 12px 30px rgba(18,54,39,.16)}
+.sante-chat-toggle{position:relative;padding:13px 21px;border:1px solid rgba(23,107,66,.28);border-radius:999px;background:linear-gradient(135deg,#ffffff,#f3f8f4);color:#1f5a3a;font-size:1rem;font-weight:800;letter-spacing:.01em;box-shadow:0 12px 30px rgba(18,54,39,.14);backdrop-filter:blur(10px);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,background .2s ease}
+.sante-chat-toggle::after{content:'';position:absolute;width:9px;height:9px;border-radius:50%;top:10px;right:12px;background:#176b42;box-shadow:0 0 0 4px rgba(23,107,66,.10)}
+.sante-chat-toggle:hover{transform:translateY(-2px) scale(1.015);background:#fff;border-color:rgba(23,107,66,.48);box-shadow:0 16px 36px rgba(18,54,39,.19)}
 .sante-chat-toggle:focus-visible{outline:2px solid rgba(23,107,66,.55);outline-offset:3px}
-.sante-chat-toggle::first-letter{opacity:.75}
 .sante-chat-panel{width:min(370px,calc(100vw - 28px));margin-left:auto}
-@media(max-width:680px){.sante-chat{right:14px;bottom:18px}.sante-chat-toggle{padding:9px 13px;font-size:.84rem}}
+@media(max-width:680px){.sante-chat{right:14px;bottom:18px}.sante-chat-toggle{padding:12px 18px;font-size:.95rem}}
 `;document.head.append(chatButtonStyle);
 
 const stabilityStyle=document.createElement('style');stabilityStyle.textContent=`
