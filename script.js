@@ -1,10 +1,88 @@
-const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);const menuToggle=$('#menuToggle'),navLinks=$('#navLinks');if(menuToggle&&navLinks)menuToggle.onclick=()=>{const o=navLinks.classList.toggle('active');menuToggle.setAttribute('aria-expanded',o);menuToggle.textContent=o?'✕':'☰'};const year=$('#year');if(year)year.textContent=new Date().getFullYear();const reveal=$$('.reveal');if('IntersectionObserver'in window){const io=new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target)}}),{threshold:.12});reveal.forEach(e=>io.observe(e))}else reveal.forEach(e=>e.classList.add('visible'));
-const whatsappUrl='https://api.whatsapp.com/send?phone=639613552176',viberUrl='viber://chat?number=%2B639613552176',facebookUrl='https://www.messenger.com/t/santewellnessinternational',loreMessengerUrl='https://www.messenger.com/t/LorelynCIcalla';
-const css=`.sante-chat{position:fixed;right:24px;bottom:92px;z-index:9999;font:inherit}.sante-chat-toggle{border:0;background:#fff;color:#174;border-radius:999px;padding:14px 20px;box-shadow:0 10px 30px rgba(0,0,0,.16);font-weight:800;cursor:pointer}.sante-chat-panel{width:min(360px,calc(100vw - 32px));background:#fff;border-radius:22px;box-shadow:0 22px 60px rgba(0,0,0,.24);overflow:hidden;margin-bottom:12px}.sante-chat-panel[hidden]{display:none}.sante-chat-head{background:#126b3b;color:#fff;padding:18px}.sante-chat-head strong{display:block;font-size:1.05rem}.sante-chat-body{padding:16px}.sante-chat-message{background:#f3f7f4;color:#344;padding:12px;border-radius:14px;margin-bottom:12px;line-height:1.45}.sante-chat-options{display:grid;gap:8px}.sante-chat-option{width:100%;border:1px solid #dce8df;background:#fff;border-radius:12px;padding:12px;text-align:left;cursor:pointer;font:inherit;font-weight:700;color:#174}.sante-chat-option:hover{border-color:#198c4e;background:#f5fbf7}.sante-chat-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sante-chat-contact-grid .facebook-option{grid-column:1/-1}.sante-chat-back{margin-top:10px;color:#667}@media(max-width:700px){.sante-chat{right:16px;bottom:82px}.sante-chat-toggle{padding:12px 16px}.sante-chat-contact-grid{grid-template-columns:1fr}}`;document.head.append(Object.assign(document.createElement('style'),{textContent:css}));
-if(!$('.sante-chat')){const chat=document.createElement('div');chat.className='sante-chat';chat.innerHTML='<div class="sante-chat-panel" hidden><div class="sante-chat-head"><strong>🌿 SANTÉ Wellness Assistant</strong><span>How can I help you today?</span></div><div class="sante-chat-body"></div></div><button class="sante-chat-toggle" type="button" aria-expanded="false">💬 Chat with us</button>';document.body.append(chat);const panel=$('.sante-chat-panel'),toggle=$('.sante-chat-toggle'),body=$('.sante-chat-body');const go=u=>{window.location.href=u};const main=()=>{body.innerHTML='<div class="sante-chat-message">Hi! I can help you explore SANTÉ products, learn about the opportunity, or connect with Lore.</div><div class="sante-chat-options"><button class="sante-chat-option" data-x="products">🌿 Products</button><button class="sante-chat-option" data-x="business">💼 Business Opportunity</button><button class="sante-chat-option" data-x="order">📦 How to Order</button><button class="sante-chat-option" data-x="lore">👩‍💼 Talk to Lore</button><button class="sante-chat-option" data-x="facebook">📘 Message us on Facebook</button><button class="sante-chat-option" data-x="whatsapp">💬 WhatsApp</button></div>';$$('[data-x]').forEach(b=>b.onclick=()=>{let x=b.dataset.x;if(x==='products'){$('#products')?.scrollIntoView({behavior:'smooth'});panel.hidden=true}else if(x==='business'){$('#business')?.scrollIntoView({behavior:'smooth'});panel.hidden=true}else if(x==='order')go('https://partner.mysante.com/wealthylore');else if(x==='lore')contacts();else if(x==='facebook')go(facebookUrl);else go(whatsappUrl)})};const contacts=()=>{body.innerHTML='<div class="sante-chat-message"><strong>Talk to Lore 👋</strong><br>Choose your preferred messaging app:</div><div class="sante-chat-contact-grid"><button class="sante-chat-option" data-c="whatsapp">💬 WhatsApp</button><button class="sante-chat-option" data-c="viber">📞 Viber</button><button class="sante-chat-option facebook-option" data-c="messenger">📘 Chat with Lore on Messenger</button></div><button class="sante-chat-option sante-chat-back" data-c="back">← Back to menu</button>';$$('[data-c]').forEach(b=>b.onclick=()=>{let c=b.dataset.c;if(c==='back')main();else if(c==='messenger')go(loreMessengerUrl);else if(c==='viber')go(viberUrl);else go(whatsappUrl)})};toggle.onclick=()=>{const o=panel.hidden;panel.hidden=!o;toggle.setAttribute('aria-expanded',o)};main()}
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
 
-// Restore the SANTÉ start-pack section that was lost when the chatbot script was rebuilt.
-const packStyle=document.createElement('style');packStyle.textContent=`.location-modal{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:20px;background:rgba(7,28,18,.58);backdrop-filter:blur(5px)}.location-modal[hidden]{display:none!important}.location-box{width:min(520px,100%);background:#fff;border-radius:24px;padding:30px;box-shadow:0 24px 70px rgba(0,0,0,.28);position:relative;text-align:center}.location-close{position:absolute;right:16px;top:10px;border:0;background:transparent;font-size:28px;cursor:pointer}.location-box h2{margin:4px 0 8px;color:#126b3b}.location-box p{color:#556;margin:0 0 22px}.location-choices{display:grid;gap:12px}.location-choice{border:1px solid #d8e6dc;background:#fff;border-radius:16px;padding:16px;text-align:left;cursor:pointer;font:inherit;font-weight:700;color:#173}.location-choice small{display:block;font-weight:400;color:#667;margin-top:3px}.location-choice:hover{border-color:#188a4c;background:#f5fbf7}.start-pack-section{padding:72px 20px;background:#f6faf7;scroll-margin-top:100px}.start-pack-grid{max-width:1100px;margin:28px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:22px}.start-pack-card{background:#fff;border:1px solid #e0ebe4;border-radius:22px;padding:24px;box-shadow:0 10px 30px rgba(16,65,38,.08)}.start-pack-card.featured{border:2px solid #198c4e}.start-pack-image{margin:-4px -4px 20px;display:block;background:linear-gradient(180deg,#f7faf8,#eef5f0);border-radius:16px;overflow:visible;line-height:0}.start-pack-image img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain}.start-pack-card h3{font-size:1.7rem;margin:0 0 10px;color:#174}.start-pack-card ul{padding-left:20px;color:#566;line-height:1.8}.start-pack-card .btn{margin-top:12px}@media(max-width:700px){.start-pack-grid{grid-template-columns:1fr}.location-box{padding:26px 18px}.start-pack-image{margin-bottom:18px}}`;document.head.append(packStyle);
-const modal=document.createElement('div');modal.className='location-modal';modal.hidden=true;modal.setAttribute('aria-hidden','true');modal.innerHTML='<div class="location-box" role="dialog" aria-modal="true"><button class="location-close" aria-label="Close">×</button><div class="location-content"></div></div>';document.body.append(modal);const mc=modal.querySelector('.location-content'),closeModal=()=>{modal.hidden=true;modal.setAttribute('aria-hidden','true');document.body.style.overflow=''};modal.querySelector('.location-close').onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal};
-function openPackSelector(title){mc.innerHTML=`<span class="eyebrow">CHOOSE YOUR LOCATION</span><h2>Where are you shopping from?</h2><p>${title}</p><div class="location-choices"><button class="location-choice" data-l="ph">🇵🇭 Philippines<small>Continue to the Philippine SANTÉ page.</small></button><button class="location-choice" data-l="global">🌎 Outside the Philippines<small>Continue to the international SANTÉ site.</small></button></div>`;modal.hidden=false;modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';mc.querySelector('[data-l="ph"]').onclick=()=>{const u=title==='Preferred Pack'?'https://partner.mysante.com/p/storefront-spha01001?ref=MTUyODc5&country=PH&flow=epackage&package=preferred':'https://partner.mysante.com/p/storefront-spha01002?ref=MTUyODc5&country=PH&flow=epackage&package=intro';window.open(u,'_blank','noopener');closeModal()};mc.querySelector('[data-l="global"]').onclick=()=>{window.open('https://partner.mysante.com/epackage','_blank','noopener');closeModal()};}
-const business=$('#business');if(business&&!$('.start-pack-section')){const s=document.createElement('section');s.className='start-pack-section';s.id='start-packs';s.innerHTML='<div class="section-heading reveal"><span class="eyebrow">CHOOSE YOUR STARTING POINT</span><h2>Start Your SANTÉ Journey</h2><p>Choose the option that best matches your goals, then select your location.</p></div><div class="start-pack-grid"><article class="start-pack-card featured reveal"><div class="start-pack-image"><img src="image/sante-barley-preferred-pack.png" alt="SANTÉ Barley Preferred Pack – 2 boxes of 10 sachets each" loading="lazy"></div><span class="eyebrow">PREFERRED / AFFILIATE PACK</span><h3>Start with products. Enjoy preferred pricing.</h3><ul><li>2 boxes of SANTÉ Barley Powder, 10 sachets each</li><li>Automatic registration</li><li>30% lifetime discount</li></ul><button class="btn btn-primary" type="button" data-pack="Preferred Pack">Explore the Preferred Pack →</button></article><article class="start-pack-card reveal"><div class="start-pack-image"><img src="image/sante-barley-intro-pack.png" alt="SANTÉ Barley Intro Pack – 2 boxes of 30 sachets each" loading="lazy"></div><span class="eyebrow">INTRO PACK</span><h3>Ready to take the next step?</h3><ul><li>2 boxes of SANTÉ Barley Powder, 30 sachets each</li><li>Entry option for exploring the SANTÉ opportunity</li><li>Choose your country before continuing</li></ul><button class="btn btn-outline" type="button" data-pack="Intro Pack">Explore the Intro Pack →</button></article></div>';business.parentNode.insertBefore(s,business);s.querySelectorAll('[data-pack]').forEach(b=>b.onclick=()=>openPackSelector(b.dataset.pack))}
+const menuToggle = $('#menuToggle');
+const navLinks = $('#navLinks');
+if (menuToggle && navLinks) {
+  menuToggle.onclick = () => {
+    const open = navLinks.classList.toggle('active');
+    menuToggle.setAttribute('aria-expanded', open);
+    menuToggle.textContent = open ? '✕' : '☰';
+  };
+}
+
+const year = $('#year');
+if (year) year.textContent = new Date().getFullYear();
+
+const reveal = $$('.reveal');
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveal.forEach(el => observer.observe(el));
+} else {
+  reveal.forEach(el => el.classList.add('visible'));
+}
+
+const chatStyle = document.createElement('style');
+chatStyle.textContent = `
+.sante-chat{position:fixed;right:24px;bottom:92px;z-index:9999;font:inherit}.sante-chat-toggle{border:0;background:#fff;color:#174;border-radius:999px;padding:14px 20px;box-shadow:0 10px 30px rgba(0,0,0,.16);font-weight:800;cursor:pointer}.sante-chat-panel{width:min(360px,calc(100vw - 32px));background:#fff;border-radius:22px;box-shadow:0 22px 60px rgba(0,0,0,.24);overflow:hidden;margin-bottom:12px}.sante-chat-panel[hidden]{display:none}.sante-chat-head{background:#126b3b;color:#fff;padding:18px}.sante-chat-head strong{display:block;font-size:1.05rem}.sante-chat-body{padding:16px}.sante-chat-message{background:#f3f7f4;color:#344;padding:12px;border-radius:14px;margin-bottom:12px;line-height:1.45}.sante-chat-options{display:grid;gap:8px}.sante-chat-option{width:100%;border:1px solid #dce8df;background:#fff;border-radius:12px;padding:12px;text-align:left;cursor:pointer;font:inherit;font-weight:700;color:#174}.sante-chat-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.facebook-option{grid-column:1/-1}.sante-chat-back{margin-top:10px;color:#667}@media(max-width:700px){.sante-chat{right:16px;bottom:82px}.sante-chat-contact-grid{grid-template-columns:1fr}}
+.start-pack-section{padding:72px 20px;background:#f6faf7}.start-pack-grid{max-width:1100px;margin:28px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:22px}.start-pack-card{background:#fff;border:1px solid #e0ebe4;border-radius:22px;padding:24px;box-shadow:0 10px 30px rgba(16,65,38,.08)}.start-pack-card.featured{border:2px solid #198c4e}.start-pack-image{margin:-4px -4px 20px;background:#f4f8f5;border-radius:16px}.start-pack-image img{display:block;width:100%;height:auto}.start-pack-card h3{font-size:1.7rem;margin:0 0 10px;color:#174}.start-pack-card ul{padding-left:20px;color:#566;line-height:1.8}@media(max-width:700px){.start-pack-grid{grid-template-columns:1fr}}
+`;
+document.head.append(chatStyle);
+
+const whatsappUrl = 'https://api.whatsapp.com/send?phone=639613552176';
+const viberUrl = 'viber://chat?number=%2B639613552176';
+const facebookUrl = 'https://www.messenger.com/t/santewellnessinternational';
+const loreMessengerUrl = 'https://www.messenger.com/t/LorelynCIcalla';
+
+if (!$('.sante-chat')) {
+  const chat = document.createElement('div');
+  chat.className = 'sante-chat';
+  chat.innerHTML = `<div class="sante-chat-panel" hidden><div class="sante-chat-head"><strong>🌿 SANTÉ Wellness Assistant</strong><span>How can I help you today?</span></div><div class="sante-chat-body"></div></div><button class="sante-chat-toggle" type="button" aria-expanded="false">💬 Chat with us</button>`;
+  document.body.append(chat);
+  const panel = $('.sante-chat-panel');
+  const toggle = $('.sante-chat-toggle');
+  const body = $('.sante-chat-body');
+  const go = url => { window.location.href = url; };
+
+  const contacts = () => {
+    body.innerHTML = `<div class="sante-chat-message"><strong>Talk to Lore 👋</strong><br>Choose your preferred messaging app:</div><div class="sante-chat-contact-grid"><button class="sante-chat-option" data-contact="whatsapp">💬 WhatsApp</button><button class="sante-chat-option" data-contact="viber">📞 Viber</button><button class="sante-chat-option facebook-option" data-contact="messenger">📘 Chat with Lore on Messenger</button></div><button class="sante-chat-option sante-chat-back" data-contact="back">← Back to menu</button>`;
+    $$('[data-contact]').forEach(btn => btn.onclick = () => {
+      const c = btn.dataset.contact;
+      if (c === 'back') mainMenu();
+      else if (c === 'messenger') go(loreMessengerUrl);
+      else if (c === 'viber') go(viberUrl);
+      else go(whatsappUrl);
+    });
+  };
+
+  const mainMenu = () => {
+    body.innerHTML = `<div class="sante-chat-message">Hi! I can help you explore SANTÉ products, learn about the opportunity, or connect with Lore.</div><div class="sante-chat-options"><button class="sante-chat-option" data-action="products">🌿 Products</button><button class="sante-chat-option" data-action="business">💼 Business Opportunity</button><button class="sante-chat-option" data-action="order">📦 How to Order</button><button class="sante-chat-option" data-action="lore">👩‍💼 Talk to Lore</button><button class="sante-chat-option" data-action="facebook">📘 Message us on Facebook</button><button class="sante-chat-option" data-action="whatsapp">💬 WhatsApp</button></div>`;
+    $$('[data-action]').forEach(btn => btn.onclick = () => {
+      const action = btn.dataset.action;
+      if (action === 'products') { $('#products')?.scrollIntoView({behavior:'smooth'}); panel.hidden = true; }
+      else if (action === 'business') { $('#business')?.scrollIntoView({behavior:'smooth'}); panel.hidden = true; }
+      else if (action === 'order') go('https://partner.mysante.com/wealthylore');
+      else if (action === 'lore') contacts();
+      else if (action === 'facebook') go(facebookUrl);
+      else go(whatsappUrl);
+    });
+  };
+  toggle.onclick = () => { const open = panel.hidden; panel.hidden = !open; toggle.setAttribute('aria-expanded', open); };
+  mainMenu();
+}
+
+const business = $('#business');
+if (business && !$('#start-packs')) {
+  const packs = document.createElement('section');
+  packs.className = 'start-pack-section';
+  packs.id = 'start-packs';
+  packs.innerHTML = `<div class="section-heading reveal"><span class="eyebrow">CHOOSE YOUR STARTING POINT</span><h2>Start Your SANTÉ Journey</h2><p>Choose the option that best matches your goals.</p></div><div class="start-pack-grid"><article class="start-pack-card featured"><div class="start-pack-image"><img src="image/sante-barley-preferred-pack.png" alt="SANTÉ Barley Preferred Pack"></div><span class="eyebrow">PREFERRED / AFFILIATE PACK</span><h3>Start with products. Enjoy preferred pricing.</h3><ul><li>2 boxes of SANTÉ Barley Powder, 10 sachets each</li><li>Automatic registration</li><li>30% lifetime discount</li></ul><a class="btn btn-primary" href="https://partner.mysante.com/p/storefront-spha01001?ref=MTUyODc5&country=PH&flow=epackage&package=preferred" target="_blank" rel="noopener">Explore the Preferred Pack →</a></article><article class="start-pack-card"><div class="start-pack-image"><img src="image/sante-barley-intro-pack.png" alt="SANTÉ Barley Intro Pack"></div><span class="eyebrow">INTRO PACK</span><h3>Ready to take the next step?</h3><ul><li>2 boxes of SANTÉ Barley Powder, 30 sachets each</li><li>Entry option for exploring the opportunity</li><li>Choose your country before continuing</li></ul><a class="btn btn-outline" href="https://partner.mysante.com/p/storefront-spha01002?ref=MTUyODc5&country=PH&flow=epackage&package=intro" target="_blank" rel="noopener">Explore the Intro Pack →</a></article></div>`;
+  business.parentNode.insertBefore(packs, business);
+}
