@@ -1,4 +1,4 @@
-name: Add automated social sharing metadata setup
+name: Add social sharing metadata
 
 on:
   push:
@@ -11,36 +11,35 @@ permissions:
 jobs:
   update-meta:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
       - name: Add Open Graph and Twitter metadata
+        shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-
-          p = Path("index.html")
-          s = p.read_text(encoding="utf-8")
-
-          meta = """<meta property="og:title" content="SANTÉ Wellness with Lore">
-<meta property="og:description" content="Discover SANTÉ wellness products and explore a flexible business opportunity with Lore.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://santewithlore.com/">
-<meta property="og:image" content="https://santewithlore.com/images/ChatGPT%20Image%20Aug%2023%2C%202026%2C%2001_02_35%20PM.png">
-<meta property="og:image:alt" content="SANTÉ Wellness with Lore">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SANTÉ Wellness with Lore">
-<meta name="twitter:description" content="Discover SANTÉ wellness products and explore a flexible business opportunity with Lore.">
-<meta name="twitter:image" content="https://santewithlore.com/images/ChatGPT%20Image%20Aug%2023%2C%202026%2C%2001_02_35%20PM.png">"""
-
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          meta = '''
+          <meta property="og:title" content="SANTÉ Wellness with Lore">
+          <meta property="og:description" content="Discover SANTÉ wellness products and explore a flexible business opportunity with Lore.">
+          <meta property="og:type" content="website">
+          <meta property="og:url" content="https://santewithlore.com/">
+          <meta property="og:image" content="https://santewithlore.com/images2/ChatGPT%20Image%20Aug%2023%2C%202026%2C%2001_02_35%20PM.png">
+          <meta property="og:image:alt" content="SANTÉ Wellness with Lore">
+          <meta name="twitter:card" content="summary_large_image">
+          <meta name="twitter:title" content="SANTÉ Wellness with Lore">
+          <meta name="twitter:description" content="Discover SANTÉ wellness products and explore a flexible business opportunity with Lore.">
+          <meta name="twitter:image" content="https://santewithlore.com/images2/ChatGPT%20Image%20Aug%2023%2C%202026%2C%2001_02_35%20PM.png">
+          '''
           if 'property="og:title"' not in s:
-              s = s.replace("</head>", meta + "\n</head>")
-
-          p.write_text(s, encoding="utf-8")
+              s = s.replace('</head>', meta + '\n</head>')
+              p.write_text(s, encoding='utf-8')
           PY
 
       - name: Commit changes if needed
+        shell: bash
         run: |
           if git diff --quiet; then
             echo "No changes needed"
