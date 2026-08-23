@@ -23,13 +23,12 @@ jobs:
 
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-          image = 'https://raw.githubusercontent.com/loreicalla/sante-wellness-website/main/images2/ChatGPT%20Image%20Aug%2023%2C%202026%2C%2001_02_35%20PM.png'
+          image = 'https://santewithlore.com/images2/ChatGPT%20Image%20Aug%2023%2C%202026%2C%2001_02_35%20PM.png'
 
-          meta = f'''\n<meta property="og:title" content="SANTÉ Wellness with Lore">\n<meta property="og:description" content="Discover SANTÉ wellness products and explore a flexible business opportunity with Lore.">\n<meta property="og:type" content="website">\n<meta property="og:url" content="https://www.santewithlore.com/">\n<meta property="og:image" content="{image}">\n<meta property="og:image:secure_url" content="{image}">\n<meta property="og:image:alt" content="SANTÉ Wellness with Lore">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="SANTÉ Wellness with Lore">\n<meta name="twitter:description" content="Discover SANTÉ wellness products and explore a flexible business opportunity with Lore.">\n<meta name="twitter:image" content="{image}">\n'''
+          meta = f'''\n<meta property="og:title" content="SANTÉ Wellness with Lore">\n<meta property="og:description" content="Discover SANTÉ wellness products and explore a flexible business opportunity with Lore.">\n<meta property="og:type" content="website">\n<meta property="og:url" content="https://santewithlore.com/">\n<meta property="og:image" content="{image}">\n<meta property="og:image:secure_url" content="{image}">\n<meta property="og:image:type" content="image/png">\n<meta property="og:image:alt" content="SANTÉ Wellness with Lore">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="SANTÉ Wellness with Lore">\n<meta name="twitter:description" content="Discover SANTÉ wellness products and explore a flexible business opportunity with Lore.">\n<meta name="twitter:image" content="{image}">\n'''
 
-          # Remove any previous social metadata so the current values are always authoritative.
           patterns = [
-              r'\s*<meta property="og:(title|description|type|url|image|image:secure_url|image:alt)"[^>]*>',
+              r'\s*<meta property="og:(title|description|type|url|image|image:secure_url|image:type|image:alt)"[^>]*>',
               r'\s*<meta name="twitter:(card|title|description|image)"[^>]*>'
           ]
           for pattern in patterns:
@@ -47,6 +46,6 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add index.html
-            git commit -m "Update social sharing metadata"
+            git commit -m "Fix social sharing image metadata"
             git push
           fi
