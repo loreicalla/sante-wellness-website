@@ -4,7 +4,16 @@
     const body=document.querySelector('.sante-chat-body'),panel=document.querySelector('.sante-chat-panel');
     if(!body||!panel)return setTimeout(start,150);
     const shop='https://partner.mysante.com/wealthylore';
-    const premiumPH='https://partner.mysante.com/shop/premium';
+    const packageLinks={
+      'Preferred Pack':{
+        ph:'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=PH&package=preferred',
+        global:'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=GLOBAL&package=preferred'
+      },
+      'Intro Pack':{
+        ph:'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=PH&package=intro',
+        global:'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=GLOBAL&package=intro'
+      }
+    };
     const live='https://api.whatsapp.com/send?phone=639613552176&text=Hi%20Lore!%20I%20would%20like%20to%20talk%20to%20you%20about%20SANT%C3%89.';
     const wa='https://api.whatsapp.com/send?phone=639613552176';
     const go=u=>location.href=u;
@@ -13,12 +22,14 @@
     document.head.append(style);
 
     function showPackageLocation(pack){
+      const links=packageLinks[pack];
+      if(!links)return;
       const modal=document.querySelector('.location-modal'),content=modal?.querySelector('.location-content');
-      if(!modal||!content){go(shop);return;}
-      content.innerHTML=`<span class="eyebrow">CHOOSE YOUR LOCATION</span><h2>Where are you registering from?</h2><p>Select your location to continue with the ${pack}.</p><div class="location-choices"><button class="location-choice" data-ph>🇵🇭 Philippines<small>Continue to the Philippine SANTÉ registration page.</small></button><button class="location-choice" data-global>🌎 Outside the Philippines<small>Continue through Lore's Global SANTÉ partner page.</small></button></div>`;
+      if(!modal||!content){go(links.ph);return;}
+      content.innerHTML=`<span class="eyebrow">CHOOSE YOUR LOCATION</span><h2>Where are you registering from?</h2><p>Select your location to continue with the ${pack}.</p><div class="location-choices"><button class="location-choice" data-ph>🇵🇭 Philippines<small>Continue to the Philippine SANTÉ registration page.</small></button><button class="location-choice" data-global>🌎 Outside the Philippines<small>Continue to the Global SANTÉ registration page.</small></button></div>`;
       modal.hidden=false;
-      content.querySelector('[data-ph]').onclick=()=>{window.open(premiumPH,'_blank','noopener');modal.hidden=true};
-      content.querySelector('[data-global]').onclick=()=>{window.open(shop,'_blank','noopener');modal.hidden=true};
+      content.querySelector('[data-ph]').onclick=()=>{window.open(links.ph,'_blank','noopener');modal.hidden=true};
+      content.querySelector('[data-global]').onclick=()=>{window.open(links.global,'_blank','noopener');modal.hidden=true};
     }
 
     function ensurePackages(){
