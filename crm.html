@@ -10,7 +10,7 @@
     <div class="login-mark">S</div><p class="eyebrow">PRIVATE WORKSPACE</p>
     <h1>SANTÉ Lead CRM</h1><p>Enter your access code to manage website leads.</p>
     <input id="accessCode" type="password" autocomplete="current-password" placeholder="Access code" required>
-    <button>Open CRM →</button><small>This page is hidden from the public website navigation.</small>
+    <button id="openCrmBtn" type="submit">Open CRM →</button><p id="loginError" class="login-error" role="alert" hidden></p><small>This page is hidden from the public website navigation.</small>
   </form>
 </div>
 <div id="app" hidden>
@@ -35,5 +35,5 @@
   </main>
 </div>
 <dialog id="leadDialog"><button class="dialog-close" id="closeDialog">×</button><div id="leadDetail"></div></dialog>
-<script src="crm.js"></script>
+<script src="crm.js?v=2"></script>
 </body></html>
