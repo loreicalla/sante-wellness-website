@@ -3,6 +3,7 @@
  * Paste this entire file into Google Apps Script attached to a Google Sheet.
  */
 const SHEET_NAME = 'Leads';
+const SPREADSHEET_ID = '1ib3VFd0LUGmjN7oYwEQeXmkJep78m14D1xioyqj7iPQ';
 
 function doGet() {
   return ContentService.createTextOutput(JSON.stringify({ ok: true, service: 'SANTÉ Wellness Lead Capture' }))
@@ -12,7 +13,7 @@ function doGet() {
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData && e.postData.contents ? e.postData.contents : '{}');
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     let sheet = ss.getSheetByName(SHEET_NAME);
     if (!sheet) {
       sheet = ss.insertSheet(SHEET_NAME);
