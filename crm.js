@@ -2,7 +2,9 @@ const API='https://script.google.com/macros/s/AKfycbyAH0bwPH0cH4dUFFrO45vjc697oO
 const ACCESS_CODE='SANTE2026'; let leads=[];
 const $=s=>document.querySelector(s);
 function escapeHtml(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-$('#loginForm').addEventListener('submit',e=>{e.preventDefault();if($('#accessCode').value===ACCESS_CODE){sessionStorage.setItem('santeCRM','1');openApp()}else alert('Incorrect access code.')});
+function handleLogin(e){if(e)e.preventDefault();const code=$('#accessCode').value.trim();const error=$('#loginError');if(code===ACCESS_CODE){try{sessionStorage.setItem('santeCRM','1')}catch(_){};if(error)error.hidden=true;openApp();return false}if(error){error.textContent='Incorrect access code. Please try again.';error.hidden=false}else alert('Incorrect access code.');$('#accessCode').focus();return false}
+$('#loginForm').addEventListener('submit',handleLogin);
+$('#openCrmBtn').addEventListener('click',handleLogin);
 $('#logoutBtn').onclick=()=>{sessionStorage.removeItem('santeCRM');location.reload()};
 function openApp(){$('#loginScreen').hidden=true;$('#app').hidden=false;loadLeads()}
 if(sessionStorage.getItem('santeCRM'))openApp();
