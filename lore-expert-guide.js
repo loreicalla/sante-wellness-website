@@ -6,12 +6,12 @@
     const shop='https://partner.mysante.com/wealthylore';
     const packageLinks={
       'Preferred Pack':{
-        ph:'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=PH&package=preferred',
-        global:'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=GLOBAL&package=preferred'
+        ph:'https://partner.mysante.com/package?ref=WEALTHYLORE&country=PH&package=preferred',
+        global:'https://partner.mysante.com/package?ref=WEALTHYLORE&country=GLOBAL&package=preferred'
       },
       'Intro Pack':{
-        ph:'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=PH&package=intro',
-        global:'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=GLOBAL&package=intro'
+        ph:'https://partner.mysante.com/package?ref=WEALTHYLORE&country=PH&package=intro',
+        global:'https://partner.mysante.com/package?ref=WEALTHYLORE&country=GLOBAL&package=intro'
       }
     };
     const live='https://api.whatsapp.com/send?phone=639613552176&text=Hi%20Lore!%20I%20would%20like%20to%20talk%20to%20you%20about%20SANT%C3%89.';
