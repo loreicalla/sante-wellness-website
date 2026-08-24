@@ -4,7 +4,7 @@
 
   // After deploying Google Apps Script, add its /exec URL here.
   // Leave blank until setup is complete; WhatsApp fallback remains active.
-  const GOOGLE_SHEETS_ENDPOINT='';
+  const GOOGLE_SHEETS_ENDPOINT='https://script.google.com/macros/s/AKfycbzeVxun_5lfufcrPq3YVB_KiHapFIOZ3d94sXUK3d1ofoKiGZOYW-tsHfqoHJC27Y61/exec';
 
   function getPackage(interest){
     if(/Affiliate|Preferred/i.test(interest)) return 'Preferred / Affiliate Pack';
