@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SANTÉ Lead CRM</title><link rel="stylesheet" href="crm.css">
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+  <form id="loginForm" class="login-card">
+    <div class="login-mark">S</div><p class="eyebrow">PRIVATE WORKSPACE</p>
+    <h1>SANTÉ Lead CRM</h1><p>Enter your access code to manage website leads.</p>
+    <input id="accessCode" type="password" autocomplete="current-password" placeholder="Access code" required>
+    <button>Open CRM →</button><small>This page is hidden from the public website navigation.</small>
+  </form>
+</div>
+<div id="app" hidden>
+  <aside class="sidebar"><div class="logo"><span>S</span><b>SANTÉ<br><small>Lead CRM</small></b></div>
+    <nav><button class="active">▦ Overview</button><button id="refreshBtn">↻ Refresh leads</button></nav>
+    <div class="side-bottom"><a href="/" target="_blank">↗ View website</a><button id="logoutBtn">↪ Lock CRM</button></div>
+  </aside>
+  <main>
+    <header><div><p class="eyebrow">LEAD MANAGEMENT</p><h1>Good to see you, Lore 👋</h1><p id="lastUpdated">Loading your latest leads…</p></div><button id="mobileRefresh" class="outline">↻ Refresh</button></header>
+    <section class="stats">
+      <article><span>👥</span><div><small>Total Leads</small><strong id="totalCount">0</strong></div></article>
+      <article><span>🆕</span><div><small>New</small><strong id="newCount">0</strong></div></article>
+      <article><span>💬</span><div><small>Contacted</small><strong id="contactedCount">0</strong></div></article>
+      <article><span>🔄</span><div><small>Follow-up</small><strong id="followupCount">0</strong></div></article>
+      <article><span>⭐</span><div><small>Converted</small><strong id="convertedCount">0</strong></div></article>
+    </section>
+    <section class="toolbar"><input id="searchInput" placeholder="Search name, email, country or interest…"><select id="statusFilter"><option value="">All statuses</option><option>New</option><option>Contacted</option><option>Follow-up</option><option>Converted</option><option>Not Interested</option></select></section>
+    <section class="table-card"><div class="section-title"><div><h2>Your Leads</h2><p id="leadSummary">Loading…</p></div><button id="refreshBtn2" class="outline">↻ Refresh</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Lead</th><th>Country</th><th>Interested In</th><th>Date</th><th>Status</th><th></th></tr></thead><tbody id="leadTable"></tbody></table></div>
+      <div id="emptyState" class="empty" hidden><div>📭</div><h3>No leads found</h3><p>Try refreshing or changing your search.</p></div>
+    </section>
+  </main>
+</div>
+<dialog id="leadDialog"><button class="dialog-close" id="closeDialog">×</button><div id="leadDetail"></div></dialog>
+<script src="crm.js"></script>
+</body></html>
