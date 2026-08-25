@@ -1,13 +1,17 @@
 /* Stable loader with a progressive-enhancement fallback.
    Main content must remain visible even if an enhancement script fails to load. */
 (function () {
-  // Repair fallback for the About/Lore section: the photo column must never
-  // remain visually hidden while still reserving its full layout height.
+  // Layout repair: the Lore photo asset can fail or remain blank while its
+  // fixed-height column still reserves a large area. Keep the text section
+  // compact instead of leaving an empty visual block.
   var layoutFix = document.createElement('style');
   layoutFix.textContent = [
-    '.lore-photo.reveal{opacity:1!important;transform:none!important;visibility:visible!important}',
-    '.lore-photo-frame{background:#dcebe1!important}',
-    '@media (min-width:681px){.lore-section{padding-top:80px!important;padding-bottom:80px!important}}'
+    '.lore-section{padding-top:70px!important;padding-bottom:55px!important}',
+    '.lore-container{display:block!important;max-width:900px!important}',
+    '.lore-photo{display:none!important}',
+    '.lore-content{max-width:900px!important}',
+    '.lore-content.reveal{opacity:1!important;transform:none!important;visibility:visible!important}',
+    '.wellness-section{padding-top:70px!important}'
   ].join('');
   document.head.appendChild(layoutFix);
 
