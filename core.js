@@ -1,133 +1,83 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  // Find all Explore buttons
+  // Find all Explore buttons.
   const exploreButtons = document.querySelectorAll(
     '.product-card a, .product-card button, .explore-btn'
   );
 
   exploreButtons.forEach(function (button) {
-
+    // Use the capture phase so other click handlers cannot send the visitor
+    // directly to SANTÉ before the location popup is shown.
     button.addEventListener('click', function (event) {
-
       const link = button.getAttribute('href');
 
-      // Only handle buttons that actually have a destination
-      if (!link) return;
+      if (!link || link === '#') return;
 
       event.preventDefault();
+      event.stopPropagation();
+      if (event.stopImmediatePropagation) event.stopImmediatePropagation();
 
       showLocationPopup(link);
-    });
-
+    }, true);
   });
 
-
   function showLocationPopup(productLink) {
-
-    // Prevent multiple popups
     const existingPopup = document.querySelector('.location-modal');
-
-    if (existingPopup) {
-      existingPopup.remove();
-    }
-
+    if (existingPopup) existingPopup.remove();
 
     const modal = document.createElement('div');
-
     modal.className = 'location-modal';
 
     modal.innerHTML = `
-      <div class="location-box">
+      <div class="location-box" role="dialog" aria-modal="true" aria-label="Choose your shopping location">
+        <button class="location-close" aria-label="Close">&times;</button>
 
-        <button class="location-close">&times;</button>
-
-        <div class="location-eyebrow">
-          CHOOSE YOUR LOCATION
-        </div>
-
+        <div class="location-eyebrow">CHOOSE YOUR LOCATION</div>
         <h2>Where are you shopping from?</h2>
-
-        <p>
-          Select your location to continue shopping with SANTÉ.
-        </p>
+        <p>Select your location to continue with SANTÉ.</p>
 
         <div class="location-options">
-
           <button class="location-choice philippines">
             🇵🇭 Philippines
-            <small>
-              Continue to the Philippine SANTÉ product page.
-            </small>
+            <small>Continue to the Philippine SANTÉ product page.</small>
           </button>
 
           <button class="location-choice global">
             🌎 Outside the Philippines
-            <small>
-              Continue to the Global SANTÉ product page.
-            </small>
+            <small>Continue to the Global SANTÉ product page.</small>
           </button>
-
         </div>
-
       </div>
     `;
 
     document.body.appendChild(modal);
 
-
-    // Philippines
-    modal.querySelector('.philippines')
-      .addEventListener('click', function () {
-
-        window.location.href = productLink;
-
-      });
-
-
-    // Global
-    modal.querySelector('.global')
-      .addEventListener('click', function () {
-
-        let globalLink = productLink;
-
-        // Change Philippines URL to GLOBAL
-globalLink = globalLink.replace(
-  /country=PH/i,
-  'country=GLOBAL'
-);
-
-        // If no country parameter exists
-        if (!globalLink.includes('country=')) {
-
-          globalLink += globalLink.includes('?')
-            ? '&country=GLOBAL'
-            : '?country=GLOBAL';
-
-        }
-
-        window.location.href = globalLink;
-
-      });
-
-
-    // Close button
-    modal.querySelector('.location-close')
-      .addEventListener('click', function () {
-
-        modal.remove();
-
-      });
-
-
-    // Close when clicking outside the box
-    modal.addEventListener('click', function (event) {
-
-      if (event.target === modal) {
-        modal.remove();
-      }
-
+    modal.querySelector('.philippines').addEventListener('click', function () {
+      window.location.assign(productLink);
     });
 
-  }
+    modal.querySelector('.global').addEventListener('click', function () {
+      let globalLink = productLink;
 
+      // Philippine product codes use SPHN; the corresponding Global codes use SGLN.
+      globalLink = globalLink.replace(/storefront-sphn/ig, 'storefront-sgln');
+
+      // Replace an existing country parameter safely, or add one if missing.
+      if (/([?&])country=[^&]*/i.test(globalLink)) {
+        globalLink = globalLink.replace(/([?&])country=[^&]*/i, '$1country=GLOBAL');
+      } else {
+        globalLink += globalLink.includes('?') ? '&country=GLOBAL' : '?country=GLOBAL';
+      }
+
+      window.location.assign(globalLink);
+    });
+
+    modal.querySelector('.location-close').addEventListener('click', function () {
+      modal.remove();
+    });
+
+    modal.addEventListener('click', function (event) {
+      if (event.target === modal) modal.remove();
+    });
+  }
 });
