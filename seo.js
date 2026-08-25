@@ -1,8 +1,8 @@
-/* Additive SEO layer for the public homepage. */
+/* SEO layer for the public homepage. */
 (function () {
   const siteUrl = 'https://santewithlore.com/';
-  const title = 'SANTÉ Wellness Products & Business Opportunity | Lore';
-  const description = 'Explore SANTÉ wellness products, coffee, beauty and personal care, and learn about a flexible business opportunity with Lore.';
+  const title = 'SANTÉ Wellness Products, SANTÉ Barley & Business Opportunity | Lore';
+  const description = 'Explore SANTÉ wellness products, including SANTÉ Barley, coffee, beauty and personal care, and learn about a flexible business opportunity with Lore.';
   const image = 'https://santewithlore.com/images2/ChatGPT%20Image%20Aug%2023%2C%202026%2C%2001_02_35%20PM.png';
 
   document.title = title;
@@ -18,24 +18,37 @@
     el.setAttribute(attribute, value);
   }
 
+  function setLink(rel, href) {
+    let el = document.head.querySelector('link[rel="' + rel + '"]');
+    if (!el) {
+      el = document.createElement('link');
+      el.rel = rel;
+      document.head.appendChild(el);
+    }
+    el.href = href;
+  }
+
   setMeta('meta[name="description"]', 'content', description);
+  setMeta('meta[name="robots"]', 'content', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
   setMeta('meta[property="og:title"]', 'content', title);
   setMeta('meta[property="og:description"]', 'content', description);
+  setMeta('meta[property="og:type"]', 'content', 'website');
   setMeta('meta[property="og:url"]', 'content', siteUrl);
+  setMeta('meta[property="og:site_name"]', 'content', 'SANTÉ Wellness with Lore');
   setMeta('meta[property="og:image"]', 'content', image);
   setMeta('meta[property="og:image:secure_url"]', 'content', image);
-  setMeta('meta[property="og:image:alt"]', 'content', 'SANTÉ Wellness with Lore');
+  setMeta('meta[property="og:image:alt"]', 'content', 'SANTÉ Wellness products and business opportunity with Lore');
+  setMeta('meta[name="twitter:card"]', 'content', 'summary_large_image');
   setMeta('meta[name="twitter:title"]', 'content', title);
   setMeta('meta[name="twitter:description"]', 'content', description);
   setMeta('meta[name="twitter:image"]', 'content', image);
+  setMeta('meta[name="twitter:image:alt"]', 'content', 'SANTÉ Wellness products and business opportunity with Lore');
+  setMeta('meta[name="theme-color"]', 'content', '#1f7a4d');
 
-  let canonical = document.head.querySelector('link[rel="canonical"]');
-  if (!canonical) {
-    canonical = document.createElement('link');
-    canonical.rel = 'canonical';
-    document.head.appendChild(canonical);
-  }
-  canonical.href = siteUrl;
+  setLink('canonical', siteUrl);
+  setLink('alternate', siteUrl);
+  const alternate = document.head.querySelector('link[rel="alternate"]');
+  if (alternate) alternate.setAttribute('hreflang', 'en');
 
   if (!document.getElementById('website-structured-data')) {
     const schema = {
