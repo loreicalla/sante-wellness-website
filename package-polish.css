@@ -1,19 +1,74 @@
-/* Business Packages UI polish */
+/* Business Packages — clean product presentation */
 #business-packages{overflow:visible}
 .business-package-grid{align-items:stretch}
 .business-package-card{overflow:hidden;isolation:isolate}
-.bp-products{position:relative;height:154px!important;min-height:154px!important;margin:14px 0 12px!important;padding:8px 10px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:0!important;overflow:hidden!important;border:1px solid rgba(31,117,72,.08)!important;background:linear-gradient(180deg,#eef7f0 0%,#f9fbfa 72%,rgba(255,255,255,0) 100%)!important;border-radius:18px!important}
-.bp-products img{position:relative!important;z-index:1!important;display:block!important;width:auto!important;max-width:none!important;height:122px!important;max-height:122px!important;flex:0 1 auto!important;min-width:0!important;object-fit:contain!important;transform:none!important;filter:drop-shadow(0 8px 8px rgba(13,57,36,.12))!important}
+
+/* Keep the product area clean and let the packages be the focus */
+.bp-products{
+  position:relative;
+  height:142px!important;
+  min-height:142px!important;
+  margin:10px 0 16px!important;
+  padding:0 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:8px!important;
+  overflow:hidden!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+/* Hide decorative logos, certification badges and extra labels inside the product stage */
+.bp-products > :not(img),
+.bp-products .logo,
+.bp-products .brand,
+.bp-products .badge,
+.bp-products .certification,
+.bp-products .certified,
+.bp-products .seal,
+.bp-products .product-logo,
+.bp-products .product-badge{display:none!important}
+
+.bp-products img{
+  position:relative!important;
+  z-index:1!important;
+  display:block!important;
+  width:auto!important;
+  max-width:none!important;
+  height:118px!important;
+  max-height:118px!important;
+  flex:0 1 auto!important;
+  min-width:0!important;
+  object-fit:contain!important;
+  transform:none!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  filter:drop-shadow(0 10px 12px rgba(13,57,36,.14))!important;
+}
+
+/* Remove old white product frames if they are applied through wrappers or pseudo elements */
+.bp-products::before,.bp-products::after{content:none!important;display:none!important}
+.bp-products *{box-shadow:none!important}
+
 .business-package-card:nth-child(1) .bp-products img{width:47%!important}
-.business-package-card:nth-child(2) .bp-products img,.business-package-card:nth-child(3) .bp-products img,.business-package-card:nth-child(4) .bp-products img{width:33.333%!important}
-.business-package-card:nth-child(5) .bp-products img{width:25%!important;height:112px!important;max-height:112px!important}
-.business-package-card:nth-child(n+3) .bp-products img{margin-left:-4px!important}
-.business-package-card:nth-child(1) .bp-products img+img{margin-left:-8px!important}
+.business-package-card:nth-child(2) .bp-products img,
+.business-package-card:nth-child(3) .bp-products img,
+.business-package-card:nth-child(4) .bp-products img{width:33.333%!important}
+.business-package-card:nth-child(5) .bp-products img{width:25%!important;height:108px!important;max-height:108px!important}
+.business-package-card:nth-child(n+3) .bp-products img{margin-left:-3px!important}
+.business-package-card:nth-child(1) .bp-products img+img{margin-left:-6px!important}
 .business-package-card:hover .bp-products img{transform:translateY(-2px)!important;transition:transform .22s ease}
+
 .business-package-card ul{margin-bottom:16px!important}
 .business-package-choice{min-height:96px!important;display:flex!important;align-items:center!important}
 .bp-choose{min-height:48px!important;border-radius:13px!important;transition:transform .2s ease,filter .2s ease,box-shadow .2s ease!important}
 .bp-choose:hover{transform:translateY(-2px)!important;filter:brightness(1.04)!important;box-shadow:0 12px 22px rgba(18,54,39,.16)!important}
 .bp-locs a{transition:border-color .2s ease,background .2s ease,transform .2s ease!important}.bp-locs a:hover{transform:translateY(-1px)!important}
-@media(max-width:1250px){.bp-products{height:165px!important;min-height:165px!important}.bp-products img{height:132px!important;max-height:132px!important}.business-package-card:nth-child(5) .bp-products img{height:120px!important;max-height:120px!important}}
-@media(max-width:600px){.bp-products{height:185px!important;min-height:185px!important;padding:12px!important}.bp-products img{height:150px!important;max-height:150px!important}.business-package-card:nth-child(5) .bp-products img{height:132px!important;max-height:132px!important}.business-package-card:nth-child(n+3) .bp-products img{margin-left:-2px!important}}
+
+@media(max-width:1250px){.bp-products{height:154px!important;min-height:154px!important}.bp-products img{height:126px!important;max-height:126px!important}.business-package-card:nth-child(5) .bp-products img{height:114px!important;max-height:114px!important}}
+@media(max-width:600px){.bp-products{height:174px!important;min-height:174px!important;padding:6px!important}.bp-products img{height:142px!important;max-height:142px!important}.business-package-card:nth-child(5) .bp-products img{height:126px!important;max-height:126px!important}.business-package-card:nth-child(n+3) .bp-products img{margin-left:-2px!important}}
