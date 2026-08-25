@@ -1,14 +1,32 @@
 (function () {
   'use strict';
 
-  function getProductLink(target) {
-    var link = target.closest('a[href]');
-    if (link && link.href && link.getAttribute('href') !== '#') return link.href;
+  // Product-specific destinations. Add more products here as their SANTÉ storefront codes are confirmed.
+  var productLinks = {
+    'SANTÉ Barley Canister': {
+      philippines: 'https://partner.mysante.com/shop/premium/product/storefront-sphn01005?ref=MTUyODc5&country=PH&sponsor=WEALTHYLORE&sponsor_name=LORELYN%20ICALLA&cart=premium',
+      global: 'https://partner.mysante.com/shop/premium/product/storefront-sgln01005?ref=MTUyODc5&country=GLOBAL&sponsor=WEALTHYLORE&sponsor_name=LORELYN%20ICALLA&cart=premium'
+    }
+  };
 
+  function getDestination(target) {
     var card = target.closest('.product-card');
+    var title = card && card.querySelector('h3') ? card.querySelector('h3').textContent.trim() : '';
+    var configured = productLinks[title];
+
+    if (configured) return configured;
+
+    // Safe fallback for products whose storefront code has not yet been configured.
+    var link = target.closest('a[href]');
+    if (link && link.href && link.getAttribute('href') !== '#') {
+      return { philippines: link.href, global: link.href };
+    }
+
     if (card) {
       var cardLink = card.querySelector('a[href]');
-      if (cardLink && cardLink.href && cardLink.getAttribute('href') !== '#') return cardLink.href;
+      if (cardLink && cardLink.href && cardLink.getAttribute('href') !== '#') {
+        return { philippines: cardLink.href, global: cardLink.href };
+      }
     }
 
     return null;
@@ -35,7 +53,7 @@
     document.head.appendChild(style);
   }
 
-  function showLocationPopup(productLink) {
+  function showLocationPopup(destinations) {
     var existing = document.querySelector('.location-modal');
     if (existing) existing.remove();
 
@@ -58,16 +76,11 @@
     document.body.appendChild(modal);
 
     modal.querySelector('.philippines').addEventListener('click', function () {
-      window.location.assign(productLink);
+      window.location.assign(destinations.philippines);
     });
 
     modal.querySelector('.global').addEventListener('click', function () {
-      var globalLink = productLink.replace(/storefront-sphn/ig, 'storefront-sgln');
-      globalLink = globalLink.replace(/([?&])country=[^&]*/i, '$1country=GLOBAL');
-      if (!/[?&]country=/i.test(globalLink)) {
-        globalLink += globalLink.indexOf('?') === -1 ? '?country=GLOBAL' : '&country=GLOBAL';
-      }
-      window.location.assign(globalLink);
+      window.location.assign(destinations.global);
     });
 
     modal.querySelector('.location-close').addEventListener('click', function () {
@@ -79,16 +92,16 @@
     });
   }
 
-  // Event delegation keeps working even when product cards are rendered after core.js loads.
+  // Event delegation keeps Explore buttons working even when product cards are rendered after this script loads.
   document.addEventListener('click', function (event) {
     var trigger = event.target.closest('.product-card a, .product-card button, .explore-btn');
     if (!trigger) return;
 
-    var productLink = getProductLink(trigger);
-    if (!productLink) return;
+    var destinations = getDestination(trigger);
+    if (!destinations) return;
 
     event.preventDefault();
     event.stopPropagation();
-    showLocationPopup(productLink);
+    showLocationPopup(destinations);
   }, true);
 })();
