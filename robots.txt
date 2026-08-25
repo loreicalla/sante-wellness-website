@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://santewithlore.com/sitemap.xml
