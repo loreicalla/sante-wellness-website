@@ -91,10 +91,10 @@ document.addEventListener('DOMContentLoaded', function () {
         let globalLink = productLink;
 
         // Change Philippines URL to GLOBAL
-        globalLink = globalLink.replace(
-          /country=PHILIPPINES/i,
-          'country=GLOBAL'
-        );
+globalLink = globalLink.replace(
+  /country=PH/i,
+  'country=GLOBAL'
+);
 
         // If no country parameter exists
         if (!globalLink.includes('country=')) {
