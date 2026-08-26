@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  var VIDEO_ID = 'yaLC3Ms5XxE';
+  var VIDEO_SRC = 'Start%20Your%20Daily%20Habit%20Now%20with%20Sante%20Barley.mp4';
   var STYLE_ID = 'wellness-video-lightbox-styles';
 
   function addStyles() {
@@ -44,7 +44,7 @@
     overlay.className = 'wellness-video-lightbox';
     overlay.innerHTML = '<div class="wellness-video-lightbox__box" role="dialog" aria-modal="true" aria-label="Wellness product benefits video">' +
       '<button type="button" class="wellness-video-lightbox__close" aria-label="Close video">&times;</button>' +
-      '<iframe class="wellness-video-lightbox__frame" src="https://www.youtube-nocookie.com/embed/' + VIDEO_ID + '?autoplay=1&rel=0&modestbranding=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&playsinline=1" title="SANTÉ wellness product testimonial" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>' +
+      '<video class="wellness-video-lightbox__frame" src="' + VIDEO_SRC + '" controls autoplay playsinline title="SANTÉ wellness product video"></video>' +
       '</div>';
 
     function close() {
