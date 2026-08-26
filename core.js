@@ -23,3 +23,26 @@
   function showLocationPopup(destinations){var existing=document.querySelector('.location-modal');if(existing)existing.remove();ensureModalStyles();var modal=document.createElement('div');modal.className='location-modal';var globalUnavailable=!destinations.global;modal.innerHTML=['<div class="location-box" role="dialog" aria-modal="true" aria-label="Choose your shopping location">','<button type="button" class="location-close" aria-label="Close">&times;</button>','<div class="location-eyebrow">CHOOSE YOUR LOCATION</div>','<h2>Where are you shopping from?</h2>','<p>Select your location to continue with SANTÉ.</p>','<div class="location-options">','<button type="button" class="location-choice philippines">🇵🇭 Philippines<small>Continue to the Philippine SANTÉ page.</small></button>','<button type="button" class="location-choice global"'+(globalUnavailable?' disabled':'')+'>🌎 Outside the Philippines<small>'+(globalUnavailable?'Currently available in the Philippines only.':'Continue to the Global SANTÉ page.')+'</small></button>','</div></div>'].join('');document.body.appendChild(modal);modal.querySelector('.philippines').addEventListener('click',function(){window.location.assign(destinations.philippines)});if(destinations.global)modal.querySelector('.global').addEventListener('click',function(){window.location.assign(destinations.global)});modal.querySelector('.location-close').addEventListener('click',function(){modal.remove()});modal.addEventListener('click',function(event){if(event.target===modal)modal.remove()})}
   document.addEventListener('click',function(event){var trigger=event.target.closest('.product-card a,.product-card button,.package-card a,.package-card button,.explore-btn');if(!trigger)return;var destinations=getDestination(trigger);if(!destinations)return;event.preventDefault();event.stopPropagation();showLocationPopup(destinations)},true);
 })();
+
+/* Safely restore the package section without changing existing page markup or design. */
+(function(){
+  function restorePackages(){
+    if(document.getElementById('business-packages')) return;
+    var business=document.querySelector('.business-section');
+    if(!business) return;
+    var anchor=document.querySelector('.package-restore');
+    if(!anchor){
+      anchor=document.createElement('div');
+      anchor.className='package-restore';
+      business.insertAdjacentElement('afterend',anchor);
+    }
+    if(document.querySelector('script[data-package-fix]')) return;
+    var script=document.createElement('script');
+    script.src='package-fix.js';
+    script.defer=true;
+    script.setAttribute('data-package-fix','true');
+    document.body.appendChild(script);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',restorePackages);
+  else restorePackages();
+})();
