@@ -39,16 +39,19 @@
   }
 
   function findWellnessButton() {
-    var candidates = Array.prototype.slice.call(document.querySelectorAll('a, button'));
-    return candidates.find(function (el) {
-      var text = (el.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase();
-      if (!/explore\s+(product\s+)?benefits/.test(text)) return false;
-      var scope = el.closest('article, .story-card, .wellness-card, .story, section, div');
-      var context = scope ? (scope.textContent || '').toLowerCase() : '';
-      return context.indexOf('wellness') !== -1 || candidates.filter(function (x) {
-        return /explore\s+(product\s+)?benefits/.test((x.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase());
-      }).indexOf(el) === 0;
-    });
+    var storyCards = Array.prototype.slice.call(document.querySelectorAll('.story-card, article'));
+    for (var i = 0; i < storyCards.length; i += 1) {
+      var card = storyCards[i];
+      var context = (card.textContent || '').replace(/\s+/g, ' ').toLowerCase();
+      if (context.indexOf('wellness') === -1) continue;
+      var number = card.querySelector('.story-number');
+      var isStoryOne = number && (number.textContent || '').trim() === '01';
+      var isWellnessStory = isStoryOne || /choosing a healthier lifestyle/.test(context);
+      if (!isWellnessStory) continue;
+      var trigger = card.querySelector('a.story-link, button.story-link, a, button');
+      if (trigger) return trigger;
+    }
+    return null;
   }
 
   function bind() {
