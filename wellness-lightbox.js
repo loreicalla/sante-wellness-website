@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  var VIDEO_SRC = 'Start%20Your%20Daily%20Habit%20Now%20with%20Sante%20Barley.mp4';
+  var VIDEO_SRC = 'Start%20Your%20Daily%20Habbit%20Now%20with%20Sante%20Barley.mp4';
   var STYLE_ID = 'wellness-video-lightbox-styles';
 
   function addStyles() {
