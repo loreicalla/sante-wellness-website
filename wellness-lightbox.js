@@ -44,7 +44,7 @@
     overlay.className = 'wellness-video-lightbox';
     overlay.innerHTML = '<div class="wellness-video-lightbox__box" role="dialog" aria-modal="true" aria-label="Wellness product benefits video">' +
       '<button type="button" class="wellness-video-lightbox__close" aria-label="Close video">&times;</button>' +
-      '<iframe class="wellness-video-lightbox__frame" src="https://www.youtube.com/embed/' + VIDEO_ID + '?autoplay=1&rel=0" title="SANTÉ wellness product testimonial" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>' +
+      '<iframe class="wellness-video-lightbox__frame" src="https://www.youtube-nocookie.com/embed/' + VIDEO_ID + '?autoplay=1&rel=0&modestbranding=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&playsinline=1" title="SANTÉ wellness product testimonial" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>' +
       '</div>';
 
     function close() {
