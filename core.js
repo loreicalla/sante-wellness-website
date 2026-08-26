@@ -43,6 +43,14 @@
     script.setAttribute('data-package-fix','true');
     document.body.appendChild(script);
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',restorePackages);
-  else restorePackages();
+  function loadWellnessLightbox(){
+    if(document.querySelector('script[data-wellness-lightbox]')) return;
+    var script=document.createElement('script');
+    script.src='wellness-lightbox.js';
+    script.defer=true;
+    script.setAttribute('data-wellness-lightbox','true');
+    document.body.appendChild(script);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){restorePackages();loadWellnessLightbox();});
+  else { restorePackages(); loadWellnessLightbox(); }
 })();
