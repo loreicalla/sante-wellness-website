@@ -1,4 +1,4 @@
-/* Stable loader with a progressive-enhancement fallback. */
+/* Stable loader with cache-busting for updated site logic. */
 (function () {
   var layoutFix = document.createElement('style');
   layoutFix.textContent = [
@@ -36,13 +36,14 @@
     document.head.appendChild(l);
   }
 
-  load('seo.js', function () {
-    load('core.js', function () {
-      load('lore-expert-guide.js', function () {
-        load('guide-home-link.js', function () {
-          load('package-images.js', function () {
-            load('package-fix.js', function () {
-              loadCss('package-polish.css', function () {});
+  // Version query forces browsers to request the latest Explore/location-popup logic.
+  load('seo.js?v=20260826', function () {
+    load('core.js?v=20260826', function () {
+      load('lore-expert-guide.js?v=20260826', function () {
+        load('guide-home-link.js?v=20260826', function () {
+          load('package-images.js?v=20260826', function () {
+            load('package-fix.js?v=20260826', function () {
+              loadCss('package-polish.css?v=20260826', function () {});
             });
           });
         });
