@@ -63,12 +63,22 @@
           inLanguage: 'en'
         },
         {
+          '@type': 'Organization',
+          '@id': siteUrl + '#organization',
+          name: 'SANTÉ Wellness with Lore',
+          url: siteUrl,
+          logo: 'https://santewithlore.com/images1/sante-logo.jpg',
+          description: 'An independent SANTÉ wellness information and partner resource hosted by Lore.',
+          areaServed: 'Worldwide'
+        },
+        {
           '@type': 'WebPage',
           '@id': siteUrl + '#webpage',
           url: siteUrl,
           name: title,
           description: description,
           isPartOf: { '@id': siteUrl + '#website' },
+          about: { '@id': siteUrl + '#organization' },
           primaryImageOfPage: image,
           inLanguage: 'en'
         }
@@ -79,5 +89,13 @@
     script.id = 'website-structured-data';
     script.textContent = JSON.stringify(schema);
     document.head.appendChild(script);
+  }
+
+  if (!document.querySelector('script[data-lore-chatbot]')) {
+    const chatbot = document.createElement('script');
+    chatbot.src = 'chatbot.js';
+    chatbot.defer = true;
+    chatbot.setAttribute('data-lore-chatbot', 'true');
+    document.body.appendChild(chatbot);
   }
 })();
