@@ -24,44 +24,12 @@
   document.addEventListener('click',function(event){var trigger=event.target.closest('.product-card a,.product-card button,.package-card a,.package-card button,.explore-btn');if(!trigger)return;var destinations=getDestination(trigger);if(!destinations)return;event.preventDefault();event.stopPropagation();showLocationPopup(destinations)},true);
 })();
 
-/* Safely restore the package section without changing existing page markup or design. */
+/* Safely restore dynamic sections and progressive enhancements. */
 (function(){
-  function restorePackages(){
-    if(document.getElementById('business-packages')) return;
-    var business=document.querySelector('.business-section');
-    if(!business) return;
-    var anchor=document.querySelector('.package-restore');
-    if(!anchor){
-      anchor=document.createElement('div');
-      anchor.className='package-restore';
-      business.insertAdjacentElement('afterend',anchor);
-    }
-    if(document.querySelector('script[data-package-fix]')) return;
-    var script=document.createElement('script');
-    script.src='package-fix.js';
-    script.defer=true;
-    script.setAttribute('data-package-fix','true');
-    document.body.appendChild(script);
-  }
-  function loadWellnessLightbox(){
-    if(document.querySelector('script[data-wellness-lightbox]')) return;
-    var script=document.createElement('script');
-    script.src='wellness-lightbox.js';
-    script.defer=true;
-    script.setAttribute('data-wellness-lightbox','true');
-    document.body.appendChild(script);
-  }
-  function loadEnhancements(){
-    if(!document.querySelector('script[data-site-seo]')){
-      var seo=document.createElement('script');seo.src='seo.js';seo.defer=true;seo.setAttribute('data-site-seo','true');document.body.appendChild(seo);
-    }
-    if(!document.querySelector('script[data-lore-chatbot]')){
-      var chatbot=document.createElement('script');chatbot.src='chatbot.js';chatbot.defer=true;chatbot.setAttribute('data-lore-chatbot','true');document.body.appendChild(chatbot);
-    }
-    if(!document.querySelector('script[data-multilingual-addon]')){
-      var multilingual=document.createElement('script');multilingual.src='multilingual.js';multilingual.defer=true;multilingual.setAttribute('data-multilingual-addon','true');document.body.appendChild(multilingual);
-    }
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){restorePackages();loadWellnessLightbox();loadEnhancements();});
-  else { restorePackages(); loadWellnessLightbox(); loadEnhancements(); }
+  function loadScript(src,attr){if(document.querySelector('script['+attr+']'))return;var s=document.createElement('script');s.src=src;s.defer=true;s.setAttribute(attr,'true');document.body.appendChild(s)}
+  function restorePackages(){if(document.getElementById('business-packages'))return;var business=document.querySelector('.business-section');if(!business)return;var anchor=document.querySelector('.package-restore');if(!anchor){anchor=document.createElement('div');anchor.className='package-restore';business.insertAdjacentElement('afterend',anchor)}loadScript('package-fix.js','data-package-fix')}
+  function loadWellnessLightbox(){loadScript('wellness-lightbox.js','data-wellness-lightbox')}
+  function loadEnhancements(){loadScript('seo.js','data-site-seo');loadScript('chatbot.js','data-lore-chatbot');loadScript('multilingual.js','data-multilingual-addon');loadScript('guide-home-link.js','data-lore-guide');loadScript('social-proof.js','data-social-proof')}
+  function init(){restorePackages();loadWellnessLightbox();loadEnhancements()}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
