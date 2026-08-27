@@ -51,6 +51,14 @@
     script.setAttribute('data-wellness-lightbox','true');
     document.body.appendChild(script);
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){restorePackages();loadWellnessLightbox();});
-  else { restorePackages(); loadWellnessLightbox(); }
+  function loadEnhancements(){
+    if(!document.querySelector('script[data-site-seo]')){
+      var seo=document.createElement('script');seo.src='seo.js';seo.defer=true;seo.setAttribute('data-site-seo','true');document.body.appendChild(seo);
+    }
+    if(!document.querySelector('script[data-lore-chatbot]')){
+      var chatbot=document.createElement('script');chatbot.src='chatbot.js';chatbot.defer=true;chatbot.setAttribute('data-lore-chatbot','true');document.body.appendChild(chatbot);
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){restorePackages();loadWellnessLightbox();loadEnhancements();});
+  else { restorePackages(); loadWellnessLightbox(); loadEnhancements(); }
 })();
