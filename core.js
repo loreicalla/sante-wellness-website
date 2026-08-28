@@ -16,7 +16,7 @@
     'Moments Pantyliner': { philippines: 'https://partner.mysante.com/p/storefront-sphp02001?ref=MTUyODc5&country=PH&sponsor=WEALTHYLORE&sponsor_name=LORELYN%20ICALLA&cart=premium', global: 'https://partner.mysante.com/p/storefront-sglp02001?ref=MTUyODc5&country=GLOBAL&sponsor=WEALTHYLORE&sponsor_name=LORELYN%20ICALLA&cart=premium' },
     'SANTÉ Natural Toothpaste': { philippines: 'https://partner.mysante.com/p/storefront-sphp03001?ref=MTUyODc5&country=PH&sponsor=WEALTHYLORE&sponsor_name=LORELYN%20ICALLA&cart=premium', global: 'https://partner.mysante.com/p/storefront-sglp03001?ref=MTUyODc5&country=GLOBAL&sponsor=WEALTHYLORE&sponsor_name=LORELYN%20ICALLA&cart=premium' },
     'Preferred Pack': { philippines: 'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=PH&package=preferred', global: 'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=GLOBAL&package=preferred' },
-    'Intro Pack': { philippines: 'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=PH&package=intro' , global: 'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=GLOBAL&package=intro' }
+    'Intro Pack': { philippines: 'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=PH&package=intro', global: 'https://partner.mysante.com/epackage?ref=WEALTHYLORE&country=GLOBAL&package=intro' }
   };
   function getDestination(target) { var card=target.closest('.product-card, .package-card'); var title=card&&card.querySelector('h3')?card.querySelector('h3').textContent.trim():''; return productLinks[title]||null; }
   function ensureModalStyles(){if(document.getElementById('location-popup-styles'))return;var style=document.createElement('style');style.id='location-popup-styles';style.textContent=['.location-modal{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(20,32,28,.52);backdrop-filter:blur(4px)}','.location-box{position:relative;width:min(540px,100%);padding:38px 36px 30px;border-radius:24px;background:#fff;color:#20362d;box-shadow:0 24px 80px rgba(0,0,0,.28)}','.location-close{position:absolute;top:14px;right:18px;border:0;background:transparent;color:#20362d;font-size:32px;line-height:1;cursor:pointer}','.location-eyebrow{margin-bottom:12px;font-size:11px;font-weight:800;letter-spacing:4px;color:#247247}','.location-box h2{margin:0 0 12px;font-size:42px;line-height:1.12;color:#20362d}','.location-box p{margin:0 0 24px;color:#52645d;font-size:16px}','.location-options{display:grid;grid-template-columns:1fr 1fr;gap:14px}','.location-choice{display:flex;min-height:108px;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:20px;border:1px solid #d9dfdc;border-radius:16px;background:#f8faf9;color:#20362d;font-size:16px;font-weight:800;text-align:left;cursor:pointer}','.location-choice:hover{border-color:#21834e;background:#f0f8f3;transform:translateY(-1px)}','.location-choice small{font-size:13px;font-weight:500;line-height:1.5;color:#61716a}','.location-choice:disabled{opacity:.55;cursor:not-allowed;transform:none}','@media(max-width:600px){.location-box{padding:32px 22px 22px}.location-box h2{font-size:32px}.location-options{grid-template-columns:1fr}}'].join('');document.head.appendChild(style)}
@@ -32,4 +32,34 @@
   function loadEnhancements(){loadScript('seo.js','data-site-seo');loadScript('chatbot.js','data-lore-chatbot');loadScript('multilingual.js','data-multilingual-addon');loadScript('guide-home-link.js','data-lore-guide');loadScript('social-proof.js','data-social-proof')}
   function init(){restorePackages();loadWellnessLightbox();loadEnhancements()}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+
+/* Mobile navigation: keep the hamburger reliably clickable and close the menu after navigation. */
+(function(){
+  function initMobileNav(){
+    var toggle=document.getElementById('menuToggle');
+    var nav=document.getElementById('navLinks');
+    if(!toggle||!nav||toggle.dataset.navReady==='true')return;
+    toggle.dataset.navReady='true';
+    toggle.type='button';
+    toggle.style.position='relative';
+    toggle.style.zIndex='1002';
+    toggle.addEventListener('click',function(event){
+      event.preventDefault();
+      event.stopPropagation();
+      var isOpen=nav.classList.toggle('active');
+      toggle.setAttribute('aria-expanded',String(isOpen));
+      toggle.setAttribute('aria-label',isOpen?'Close navigation':'Open navigation');
+      toggle.textContent=isOpen?'✕':'☰';
+    });
+    nav.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click',function(){
+        nav.classList.remove('active');
+        toggle.setAttribute('aria-expanded','false');
+        toggle.setAttribute('aria-label','Open navigation');
+        toggle.textContent='☰';
+      });
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMobileNav);else initMobileNav();
 })();
