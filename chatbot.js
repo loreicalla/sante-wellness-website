@@ -20,7 +20,7 @@ var win=root.querySelector('.lore-chat-window'),messages=root.querySelector('.lo
 function add(t,w){var m=document.createElement('div');m.className='lore-chat-message '+w;m.textContent=t;messages.appendChild(m);messages.scrollTop=messages.scrollHeight}
 function opts(a){var d=document.createElement('div');d.className='lore-chat-options';a.forEach(function(x){var b=document.createElement('button');b.className='lore-chat-option';b.type='button';b.textContent=x;b.onclick=function(){handle(x)};d.appendChild(b)});messages.appendChild(d);messages.scrollTop=messages.scrollHeight}
 function menu(){opts(['🌿 Explore Products','💼 Business Opportunity','📦 How to Order','👩‍💼 Talk to Lore'])}
-function goHome(section){location.href='/#'+section}
+function goHome(section){location.href='/?'+section}
 function greet(){add('Hi! 👋 Welcome. I’m Lore’s SANTÉ Assistant. I can guide you through the website and help you find the information you need. What would you like to explore?','bot');menu()}
 function handle(t){add(t,'user');var q=t.toLowerCase();
  if(q.includes('open 5 ways')||q.includes('explore the 5 ways')){location.href='/ways-to-earn.html';return}
@@ -31,10 +31,10 @@ function handle(t){add(t,'user');var q=t.toLowerCase();
   if(q.includes('back to menu')){add('Sure! What would you like to explore next?','bot');menu()}
   else if(q.includes('explore products')||q.includes('product')||q.includes('barley')||q.includes('coffee')){add('Absolutely! 🌿 You can explore the wellness products and choose what fits your lifestyle.','bot');opts(['Go to Products','Back to Menu'])}
   else if(q.includes('business opportunity')||q==='business'){
-   add('The SANTÉ business opportunity can be explored around your lifestyle. Would you like to know how to become an Affiliate / Business Owner, or how earning in the business works?','bot');opts(['How to Become an Affiliate','💰 How to Earn in the Business','Talk to Lore','Back to Menu'])
+   add('The SANTÉ business opportunity can be explored around your lifestyle. Would you like to know how to become an Affiliate, or how earning in the business works?','bot');opts(['How to Become an Affiliate','💰 How to Earn in the Business','Talk to Lore','Back to Menu'])
   }
   else if(q.includes('affiliate')||q.includes('business owner')||q.includes('become an')){
-   add('To become a SANTÉ Affiliate or Business Owner, you can start by exploring the available business options and choosing the path that matches your goals. Lore can also personally guide you through the available packages and next steps.','bot');opts(['Go to Business','Talk to Lore','💰 How to Earn in the Business','Back to Menu'])
+   add('🌿 HOW TO BECOME AN AFFILIATE\n\nIf you enjoy using SANTÉ products and would also like to earn from sharing or selling them, becoming an Affiliate may be a good fit for you.\n\nAs a SANTÉ Affiliate, you can earn 30% retail profit, and your Affiliate status is lifetime.\n\nThis option is ideal if you mainly want to consume the products, share them with others, and earn from retail sales.\n\nBut if you are interested in learning about bigger income potential and building a business, you can also talk directly with Lore, a live agent, to explore the available options.','bot');opts(['💰 How to Earn in the Business','👩‍💼 Talk to Lore','Back to Menu'])
   }
   else if(q.includes('how to earn in the business')||q.includes('how to earn')||q.includes('earn in business')){
    add('There are different ways earning may work within the SANTÉ business program, depending on qualifying sales, sponsorship, team development, rank and the applicable program rules. The website has a dedicated visual guide with simple sample computations to help explain the five earning opportunities.','bot');opts(['📊 Explore the 5 Ways to Earn','How to Become an Affiliate','Talk to Lore','Back to Menu'])
