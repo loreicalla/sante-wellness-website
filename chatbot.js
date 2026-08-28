@@ -20,7 +20,7 @@ var win=root.querySelector('.lore-chat-window'),messages=root.querySelector('.lo
 function add(t,w){var m=document.createElement('div');m.className='lore-chat-message '+w;m.textContent=t;messages.appendChild(m);messages.scrollTop=messages.scrollHeight}
 function opts(a){var d=document.createElement('div');d.className='lore-chat-options';a.forEach(function(x){var b=document.createElement('button');b.className='lore-chat-option';b.type='button';b.textContent=x;b.onclick=function(){handle(x)};d.appendChild(b)});messages.appendChild(d);messages.scrollTop=messages.scrollHeight}
 function menu(){opts(['🌿 Explore Products','💼 Business Opportunity','📦 How to Order','👩‍💼 Talk to Lore'])}
-function goHome(section){location.href='/?'+section}
+function goHome(section){location.href='/#'+section}
 function greet(){add('Hi! 👋 Welcome. I’m Lore’s SANTÉ Assistant. I can guide you through the website and help you find the information you need. What would you like to explore?','bot');menu()}
 function handle(t){add(t,'user');var q=t.toLowerCase();
  if(q.includes('open 5 ways')||q.includes('explore the 5 ways')){location.href='/ways-to-earn.html';return}
