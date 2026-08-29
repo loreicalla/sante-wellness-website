@@ -18,12 +18,12 @@ function init(card){
  if(card.dataset.flipReady)return;
  const info=card.querySelector('.product-info'),name=info&&info.querySelector('h3');
  if(!name||!products[name.textContent.trim()])return;
- const p=products[name.textContent.trim()],front=card.innerHTML;
+ const p=products[name.textContent.trim()]; const original=card.cloneNode(true); const oldLink=original.querySelector('a'); if(oldLink){oldLink.removeAttribute('href');oldLink.removeAttribute('target');oldLink.removeAttribute('rel');oldLink.classList.add('flip-hint');oldLink.textContent='Tap product for details →';} const front=original.innerHTML;
  card.dataset.flipReady='1';
  card.classList.add('flip-product-card');
  card.innerHTML='<div class="product-flip-inner"><div class="product-face product-front">'+front+'</div><div class="product-face product-back"><div class="product-back-content"><span class="product-back-label">PRODUCT DETAILS</span><h3>'+name.textContent.trim()+'</h3><p>'+p.d+'</p><ul>'+p.b.map(x=>'<li>✓ '+x+'</li>').join('')+'</ul><button type="button" class="product-explore">Explore Product →</button><div class="product-location"><span>CHOOSE YOUR LOCATION</span><div><button type="button" data-url="'+p.ph+'">🇵🇭 Philippines</button><button type="button" data-url="'+p.gl+'">🌎 Global</button></div></div><button type="button" class="product-close">← Back to product</button></div></div></div>';
- card.addEventListener('click',e=>{if(e.target.closest('a,button'))return;card.classList.toggle('is-flipped')});
- card.querySelector('.product-front').addEventListener('click',e=>{if(!e.target.closest('a'))card.classList.add('is-flipped')});
+ card.addEventListener('click',e=>{if(e.target.closest('button'))return;card.classList.toggle('is-flipped')});
+ card.querySelector('.product-front').addEventListener('click',e=>{e.preventDefault();card.classList.add('is-flipped')});
  card.querySelector('.product-explore').addEventListener('click',()=>card.classList.add('show-location'));
  card.querySelector('.product-close').addEventListener('click',()=>{card.classList.remove('show-location');card.classList.remove('is-flipped')});
  card.querySelectorAll('[data-url]').forEach(b=>b.addEventListener('click',()=>window.open(b.dataset.url,'_blank','noopener')));
