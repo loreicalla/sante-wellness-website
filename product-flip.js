@@ -6,11 +6,23 @@ function init(card){
  if(!name||!products[name.textContent.trim()])return;
  const p=products[name.textContent.trim()]; const original=card.cloneNode(true); const oldLink=original.querySelector('a'); if(oldLink){oldLink.removeAttribute('href');oldLink.removeAttribute('target');oldLink.removeAttribute('rel');oldLink.classList.add('flip-hint');oldLink.textContent='Tap product for details →';} const front=original.innerHTML;
  card.dataset.flipReady='1'; card.classList.add('flip-product-card');
- card.innerHTML='<div class="product-flip-inner"><div class="product-face product-front">'+front+'</div><div class="product-face product-back"><div class="product-back-content"><span class="product-back-label">PRODUCT DETAILS</span><h3>'+name.textContent.trim()+'</h3><p>'+p.d+'</p><ul>'+p.b.map(x=>'<li>✓ '+x+'</li>').join('')+'</ul><button type="button" class="product-explore">Explore Product →</button><div class="product-location"><span>CHOOSE YOUR LOCATION</span><div><button type="button" data-url="'+p.ph+'">🇵🇭 Philippines</button><button type="button" data-url="'+p.gl+'">🌎 Global</button></div></div><button type="button" class="product-close">← Back to product</button></div></div></div>';
+ card.innerHTML='<div class="product-flip-inner"><div class="product-face product-front">'+front+'</div><div class="product-face product-back"><div class="product-back-content"><span class="product-back-label">PRODUCT DETAILS</span><h3>'+name.textContent.trim()+'</h3><p>'+p.d+'</p><ul>'+p.b.map(x=>'<li>✓ '+x+'</li>').join('')+'</ul><button type="button" class="product-explore">Ready to order? <span>→ BUY NOW</span></button><button type="button" class="product-close">← Back to Product Image</button></div></div></div>';
  card.querySelector('.product-front').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();card.classList.add('is-flipped')});
- card.querySelector('.product-explore').addEventListener('click',()=>card.classList.add('show-location'));
- card.querySelector('.product-close').addEventListener('click',()=>{card.classList.remove('show-location');card.classList.remove('is-flipped')});
- card.querySelectorAll('[data-url]').forEach(b=>b.addEventListener('click',()=>window.open(b.dataset.url,'_blank','noopener')));
+ card.querySelector('.product-explore').addEventListener('click',e=>{e.stopPropagation();openLocationModal(p)});
+ card.querySelector('.product-close').addEventListener('click',e=>{e.stopPropagation();card.classList.remove('is-flipped')});
+}
+function openLocationModal(p){
+ const previous=document.activeElement;
+ const modal=document.createElement('div');
+ modal.className='product-location-modal';
+ modal.setAttribute('role','dialog'); modal.setAttribute('aria-modal','true'); modal.setAttribute('aria-labelledby','location-modal-title');
+ modal.innerHTML='<div class="product-location-overlay"></div><div class="product-location-dialog"><button class="location-modal-close" type="button" aria-label="Close">×</button><span class="location-modal-eyebrow">READY TO ORDER?</span><h3 id="location-modal-title">Choose your location</h3><p>Select where you would like to continue shopping.</p><div class="location-choice-buttons"><button type="button" data-url="'+p.ph+'">🇵🇭 <strong>Philippines</strong><small>Continue to SANTÉ Partner Site</small></button><button type="button" data-url="'+p.gl+'">🌎 <strong>Global</strong><small>Continue to SANTÉ Partner Site</small></button></div></div>';
+ document.body.appendChild(modal); document.body.classList.add('location-modal-open');
+ const close=()=>{document.body.classList.remove('location-modal-open');modal.remove();if(previous&&previous.focus)previous.focus()};
+ modal.querySelector('.location-modal-close').addEventListener('click',close); modal.querySelector('.product-location-overlay').addEventListener('click',close);
+ modal.querySelectorAll('[data-url]').forEach(b=>b.addEventListener('click',()=>window.open(b.dataset.url,'_blank','noopener')));
+ modal.addEventListener('keydown',e=>{if(e.key==='Escape')close(); if(e.key==='Tab'){const focusable=[...modal.querySelectorAll('button')];const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+ modal.querySelector('.location-choice-buttons button').focus();
 }
 function run(){document.querySelectorAll('.product-card').forEach(init)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
