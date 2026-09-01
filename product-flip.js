@@ -9,7 +9,12 @@ function init(card){
  card.innerHTML='<div class="product-flip-inner"><div class="product-face product-front">'+front+'</div><div class="product-face product-back"><div class="product-back-content"><span class="product-back-label">PRODUCT DETAILS</span><h3>'+name.textContent.trim()+'</h3><p>'+p.d+'</p><ul>'+p.b.map(x=>'<li>✓ '+x+'</li>').join('')+'</ul><button type="button" class="product-explore">Ready to order? <span>→ BUY NOW</span></button><button type="button" class="product-close">← Back to Product Image</button></div></div></div>';
  card.querySelector('.product-front').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();card.classList.add('is-flipped')});
  card.querySelector('.product-explore').addEventListener('click',e=>{e.stopPropagation();openLocationModal(p)});
- card.querySelector('.product-close').addEventListener('click',e=>{e.stopPropagation();card.classList.remove('is-flipped')});
+ card.querySelector('.product-close').addEventListener('click',e=>{
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  // Only return this card to its original front face/product image.
+  card.classList.remove('is-flipped');
+});
 }
 function openLocationModal(p){
  const previous=document.activeElement;
