@@ -17,8 +17,21 @@ function openLocationModal(p){
  modal.className='product-location-modal';
  modal.setAttribute('role','dialog'); modal.setAttribute('aria-modal','true'); modal.setAttribute('aria-labelledby','location-modal-title');
  modal.innerHTML='<div class="product-location-overlay"></div><div class="product-location-dialog"><button class="location-modal-close" type="button" aria-label="Close">×</button><span class="location-modal-eyebrow">READY TO ORDER?</span><h3 id="location-modal-title">Choose your location</h3><p>Select where you would like to continue shopping.</p><div class="location-choice-buttons"><button type="button" data-url="'+p.ph+'">🇵🇭 <strong>Philippines</strong><small>Continue to SANTÉ Partner Site</small></button><button type="button" data-url="'+p.gl+'">🌎 <strong>Global</strong><small>Continue to SANTÉ Partner Site</small></button></div></div>';
- document.body.appendChild(modal); document.body.classList.add('location-modal-open');
- const close=()=>{document.body.classList.remove('location-modal-open');modal.remove();if(previous&&previous.focus)previous.focus()};
+ const scrollY=window.scrollY;
+ document.body.appendChild(modal);
+ document.documentElement.classList.add('location-modal-open');
+ document.body.classList.add('location-modal-open');
+ document.body.style.position='fixed';
+ document.body.style.top='-'+scrollY+'px';
+ document.body.style.left='0';
+ document.body.style.right='0';
+ document.body.style.width='100%';
+ const close=()=>{
+  document.documentElement.classList.remove('location-modal-open');
+  document.body.classList.remove('location-modal-open');
+  document.body.style.position='';document.body.style.top='';document.body.style.left='';document.body.style.right='';document.body.style.width='';
+  modal.remove();window.scrollTo(0,scrollY);if(previous&&previous.focus)previous.focus()
+ };
  modal.querySelector('.location-modal-close').addEventListener('click',close); modal.querySelector('.product-location-overlay').addEventListener('click',close);
  modal.querySelectorAll('[data-url]').forEach(b=>b.addEventListener('click',()=>window.open(b.dataset.url,'_blank','noopener')));
  modal.addEventListener('keydown',e=>{if(e.key==='Escape')close(); if(e.key==='Tab'){const focusable=[...modal.querySelectorAll('button')];const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
