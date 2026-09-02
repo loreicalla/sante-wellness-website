@@ -71,3 +71,46 @@
     reorderNavigation();
   }
 })();
+
+/* Mobile navigation: open/close the existing menu without changing any page content. */
+(function () {
+  function initMobileNavigation() {
+    var toggle = document.getElementById('menuToggle');
+    var nav = document.getElementById('navLinks');
+    if (!toggle || !nav || toggle.dataset.menuReady === 'true') return;
+
+    toggle.dataset.menuReady = 'true';
+
+    function closeMenu() {
+      nav.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open navigation');
+    }
+
+    toggle.addEventListener('click', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var isOpen = nav.classList.toggle('active');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+    });
+
+    nav.addEventListener('click', function (event) {
+      if (event.target.closest('a')) closeMenu();
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!nav.contains(event.target) && event.target !== toggle) closeMenu();
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeMenu();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileNavigation);
+  } else {
+    initMobileNavigation();
+  }
+})();
