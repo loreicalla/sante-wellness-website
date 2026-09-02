@@ -47,3 +47,27 @@
     });
   });
 })();
+
+/* Preserve all existing navigation links while arranging them in the site's reading flow. */
+(function () {
+  function reorderNavigation() {
+    var nav = document.getElementById('navLinks');
+    if (!nav) return;
+
+    var desiredOrder = ['#home', '#stories', '#about', '#products', '#business', '#lead', '#contact'];
+    var links = Array.prototype.slice.call(nav.children);
+
+    desiredOrder.forEach(function (href) {
+      var link = links.find(function (item) {
+        return item.getAttribute('href') === href;
+      });
+      if (link) nav.appendChild(link);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', reorderNavigation);
+  } else {
+    reorderNavigation();
+  }
+})();
