@@ -18,16 +18,44 @@ function init(card){
 }
 function openLocationModal(p,card){
  const previous=document.activeElement;
- if(card){card.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'});setTimeout(()=>showLocationModal(p,card,previous),350)}else showLocationModal(p,card,previous);
+ if(card){
+   card.scrollIntoView({behavior:'auto',block:'center',inline:'nearest'});
+   requestAnimationFrame(()=>showLocationModal(p,card,previous));
+ }else showLocationModal(p,card,previous);
 }
 function showLocationModal(p,card,previous){
  const modal=document.createElement('div');modal.className='product-location-modal';modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','location-modal-title');
  const globalButton=p.gl?'<button type="button" data-url="'+p.gl+'">🌎 <strong>Outside the Philippines</strong><small>Continue to the Global SANTÉ page.</small></button>':'<button type="button" disabled>🌎 <strong>Outside the Philippines</strong><small>Currently available in the Philippines only.</small></button>';
  modal.innerHTML='<div class="product-location-overlay"></div><div class="product-location-dialog"><button class="location-modal-close" type="button" aria-label="Close">×</button><span class="location-modal-eyebrow">CHOOSE YOUR LOCATION</span><h3 id="location-modal-title">Where are you shopping from?</h3><p>Select your location to continue with SANTÉ.</p><div class="location-choice-buttons"><button type="button" data-url="'+p.ph+'">🇵🇭 <strong>Philippines</strong><small>Continue to the Philippine SANTÉ page.</small></button>'+globalButton+'</div></div>';
- const scrollY=window.scrollY;document.body.appendChild(modal);document.documentElement.classList.add('location-modal-open');document.body.classList.add('location-modal-open');document.body.style.position='fixed';document.body.style.top='-'+scrollY+'px';document.body.style.left='0';document.body.style.right='0';document.body.style.width='100%';
+ const scrollY=window.scrollY;
+ const html=document.documentElement;
+ const body=document.body;
+ const previousHtmlOverflow=html.style.overflow;
+ const previousBodyOverflow=body.style.overflow;
+ body.appendChild(modal);
+ html.classList.add('location-modal-open');
+ body.classList.add('location-modal-open');
+ html.style.overflow='hidden';
+ body.style.overflow='hidden';
  const dialog=modal.querySelector('.product-location-dialog');
- if(card){const r=card.getBoundingClientRect();if(window.innerWidth>700){let top=r.top+(r.height/2)-(dialog.offsetHeight/2),left=r.left+(r.width/2)-(dialog.offsetWidth/2);top=Math.max(20,Math.min(top,window.innerHeight-dialog.offsetHeight-20));left=Math.max(20,Math.min(left,window.innerWidth-dialog.offsetWidth-20));dialog.style.position='fixed';dialog.style.top=top+'px';dialog.style.left=left+'px';dialog.style.transform='none';}}
- const close=()=>{document.documentElement.classList.remove('location-modal-open');document.body.classList.remove('location-modal-open');document.body.style.position='';document.body.style.top='';document.body.style.left='';document.body.style.right='';document.body.style.width='';modal.remove();window.scrollTo(0,scrollY);if(previous&&previous.focus)previous.focus()};
+ if(card){
+   const r=card.getBoundingClientRect();
+   if(window.innerWidth>700){
+     let top=r.top+(r.height/2)-(dialog.offsetHeight/2),left=r.left+(r.width/2)-(dialog.offsetWidth/2);
+     top=Math.max(20,Math.min(top,window.innerHeight-dialog.offsetHeight-20));
+     left=Math.max(20,Math.min(left,window.innerWidth-dialog.offsetWidth-20));
+     dialog.style.position='fixed';dialog.style.top=top+'px';dialog.style.left=left+'px';dialog.style.transform='none';
+   }
+ }
+ const close=()=>{
+   html.classList.remove('location-modal-open');
+   body.classList.remove('location-modal-open');
+   html.style.overflow=previousHtmlOverflow;
+   body.style.overflow=previousBodyOverflow;
+   modal.remove();
+   if(Math.abs(window.scrollY-scrollY)>1)window.scrollTo(0,scrollY);
+   if(previous&&previous.focus)previous.focus();
+ };
  modal.querySelector('.location-modal-close').addEventListener('click',close);modal.querySelector('.product-location-overlay').addEventListener('click',close);modal.querySelectorAll('[data-url]').forEach(b=>b.addEventListener('click',()=>window.open(b.dataset.url,'_blank','noopener')));
  modal.addEventListener('keydown',e=>{if(e.key==='Escape')close();if(e.key==='Tab'){const f=[...modal.querySelectorAll('button:not(:disabled)')],first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});modal.querySelector('.location-choice-buttons button:not(:disabled)').focus();
 }
