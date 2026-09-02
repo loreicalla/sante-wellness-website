@@ -115,3 +115,29 @@
     initMobileNavigation();
   }
 })();
+
+/* Mobile hero safety: keep the hero content visible even if another enhancement touches reveal states. */
+(function () {
+  function enforceMobileHeroVisibility() {
+    if (window.innerWidth > 680) return;
+    var hero = document.querySelector('.hero');
+    if (!hero) return;
+    hero.querySelectorAll('.hero-content, .hero-visual').forEach(function (el) {
+      el.style.setProperty('opacity', '1', 'important');
+      el.style.setProperty('visibility', 'visible', 'important');
+      el.style.setProperty('transform', 'none', 'important');
+    });
+  }
+
+  function init() {
+    enforceMobileHeroVisibility();
+    requestAnimationFrame(enforceMobileHeroVisibility);
+    setTimeout(enforceMobileHeroVisibility, 300);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
