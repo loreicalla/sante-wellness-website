@@ -3,7 +3,8 @@
   var layoutFix = document.createElement('style');
   layoutFix.textContent = [
     '.lore-section{padding-top:70px!important;padding-bottom:55px!important}',
-    '@media(max-width:900px){.lore-container{grid-template-columns:1fr!important}}'
+    '@media(max-width:900px){.lore-container{grid-template-columns:1fr!important}}',
+    '@media(max-width:680px){.hero{gap:28px;padding-top:40px;padding-bottom:35px}.hero-visual{min-height:285px}.hero-circle{width:260px;height:260px}.hero-visual img{max-height:285px}.hero-buttons{margin-top:22px}.trust-strip div{padding:18px 16px}}'
   ].join('');
   document.head.appendChild(layoutFix);
 
