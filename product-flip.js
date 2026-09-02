@@ -5,23 +5,28 @@ function init(card){
  if(card.dataset.flipReady)return;
  const info=card.querySelector('.product-info'),name=info&&info.querySelector('h3');
  if(!name||!products[name.textContent.trim()])return;
- const p=products[name.textContent.trim()]; const original=card.cloneNode(true); const oldLink=original.querySelector('a');
+ const p=products[name.textContent.trim()];const original=card.cloneNode(true);const oldLink=original.querySelector('a');
  if(oldLink){oldLink.removeAttribute('href');oldLink.removeAttribute('target');oldLink.removeAttribute('rel');oldLink.classList.add('flip-hint');oldLink.textContent='Tap for product details →';}
  const frontBuy=document.createElement('button');frontBuy.type='button';frontBuy.className='product-front-buy';frontBuy.innerHTML='Ready to order? <span>→ BUY NOW</span>';
  if(oldLink&&oldLink.parentNode)oldLink.parentNode.insertBefore(frontBuy,oldLink);else original.appendChild(frontBuy);
- const front=original.innerHTML;
- card.dataset.flipReady='1';card.classList.add('flip-product-card');
+ const front=original.innerHTML;card.dataset.flipReady='1';card.classList.add('flip-product-card');
  card.innerHTML='<div class="product-flip-inner"><div class="product-face product-front">'+front+'</div><div class="product-face product-back"><div class="product-back-content"><span class="product-back-label">PRODUCT DETAILS</span><h3>'+name.textContent.trim()+'</h3><p>'+p.d+'</p><ul>'+p.b.map(x=>'<li>✓ '+x+'</li>').join('')+'</ul><button type="button" class="product-explore">Ready to order? <span>→ BUY NOW</span></button><button type="button" class="product-close">← Back to Product Image</button></div></div></div>';
  card.querySelector('.product-front').addEventListener('click',e=>{if(e.target.closest('.product-front-buy'))return;e.preventDefault();e.stopPropagation();card.classList.add('is-flipped')});
- card.querySelector('.product-front-buy').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openLocationModal(p)});
- card.querySelector('.product-explore').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openLocationModal(p)});
+ card.querySelector('.product-front-buy').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openLocationModal(p,card)});
+ card.querySelector('.product-explore').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openLocationModal(p,card)});
  card.querySelector('.product-close').addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();card.classList.remove('is-flipped')});
 }
-function openLocationModal(p){
- const previous=document.activeElement;const modal=document.createElement('div');modal.className='product-location-modal';modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','location-modal-title');
+function openLocationModal(p,card){
+ const previous=document.activeElement;
+ if(card){card.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'});setTimeout(()=>showLocationModal(p,card,previous),350)}else showLocationModal(p,card,previous);
+}
+function showLocationModal(p,card,previous){
+ const modal=document.createElement('div');modal.className='product-location-modal';modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','location-modal-title');
  const globalButton=p.gl?'<button type="button" data-url="'+p.gl+'">🌎 <strong>Outside the Philippines</strong><small>Continue to the Global SANTÉ page.</small></button>':'<button type="button" disabled>🌎 <strong>Outside the Philippines</strong><small>Currently available in the Philippines only.</small></button>';
  modal.innerHTML='<div class="product-location-overlay"></div><div class="product-location-dialog"><button class="location-modal-close" type="button" aria-label="Close">×</button><span class="location-modal-eyebrow">CHOOSE YOUR LOCATION</span><h3 id="location-modal-title">Where are you shopping from?</h3><p>Select your location to continue with SANTÉ.</p><div class="location-choice-buttons"><button type="button" data-url="'+p.ph+'">🇵🇭 <strong>Philippines</strong><small>Continue to the Philippine SANTÉ page.</small></button>'+globalButton+'</div></div>';
  const scrollY=window.scrollY;document.body.appendChild(modal);document.documentElement.classList.add('location-modal-open');document.body.classList.add('location-modal-open');document.body.style.position='fixed';document.body.style.top='-'+scrollY+'px';document.body.style.left='0';document.body.style.right='0';document.body.style.width='100%';
+ const dialog=modal.querySelector('.product-location-dialog');
+ if(card){const r=card.getBoundingClientRect();if(window.innerWidth>700){let top=r.top+(r.height/2)-(dialog.offsetHeight/2),left=r.left+(r.width/2)-(dialog.offsetWidth/2);top=Math.max(20,Math.min(top,window.innerHeight-dialog.offsetHeight-20));left=Math.max(20,Math.min(left,window.innerWidth-dialog.offsetWidth-20));dialog.style.position='fixed';dialog.style.top=top+'px';dialog.style.left=left+'px';dialog.style.transform='none';}}
  const close=()=>{document.documentElement.classList.remove('location-modal-open');document.body.classList.remove('location-modal-open');document.body.style.position='';document.body.style.top='';document.body.style.left='';document.body.style.right='';document.body.style.width='';modal.remove();window.scrollTo(0,scrollY);if(previous&&previous.focus)previous.focus()};
  modal.querySelector('.location-modal-close').addEventListener('click',close);modal.querySelector('.product-location-overlay').addEventListener('click',close);modal.querySelectorAll('[data-url]').forEach(b=>b.addEventListener('click',()=>window.open(b.dataset.url,'_blank','noopener')));
  modal.addEventListener('keydown',e=>{if(e.key==='Escape')close();if(e.key==='Tab'){const f=[...modal.querySelectorAll('button:not(:disabled)')],first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});modal.querySelector('.location-choice-buttons button:not(:disabled)').focus();
