@@ -33,19 +33,19 @@
     }
 
     if (/shelf life|expire|expiration|expiry|how long does barley retain|ilang taon/.test(t)) {
-      return 'Yes 😊 The FAQ states that SANTÉ Pure Barley has a **3-year shelf life** when stored properly.';
+      return 'Yes 😊 The FAQ states that SANTÉ Pure Barley has a 3-year shelf life when stored properly.';
     }
 
     if (/calories|how many calories|20 calories|calorie/.test(t)) {
-      return 'SANTÉ Pure Barley has **20 calories per serving**, according to the supplied FAQ. 🌿';
+      return 'SANTÉ Pure Barley has 20 calories per serving, according to the supplied FAQ. 🌿';
     }
 
     if (/caffeine|contains caffeine|may caffeine|may kape/.test(t)) {
-      return 'Nope 😊 **SANTÉ Pure Barley contains no caffeine**, according to the FAQ. Some customers report feeling more energetic, but that is different from a caffeine effect.';
+      return 'Nope 😊 SANTÉ Pure Barley contains no caffeine, according to the FAQ. Some customers report feeling more energetic, but that is different from a caffeine effect.';
     }
 
     if (/meal replacement|replace a meal|instead of food|pamalit sa pagkain/.test(t)) {
-      return 'No 😊 SANTÉ Pure Barley is **not meant to replace a meal**. The FAQ says it should be treated as a supplement and part of an overall diet.';
+      return 'No 😊 SANTÉ Pure Barley is not meant to replace a meal. The FAQ says it should be treated as a supplement and part of an overall diet.';
     }
 
     if (/weight loss|lose weight|slimming|papayat|pampapayat|timbang/.test(t)) {
@@ -74,7 +74,7 @@
     }
 
     if (/kidney|renal failure|kidney disease|kidney disorder|bato|renal/.test(t)) {
-      return 'If you have kidney disease, a kidney disorder, or renal failure, please ask your healthcare professional before taking SANTÉ Barley. 💚 The FAQ specifically mentions potassium and lists **214 mg of potassium in a 5-gram serving** according to its nutritional analysis.';
+      return 'If you have kidney disease, a kidney disorder, or renal failure, please ask your healthcare professional before taking SANTÉ Barley. 💚 The FAQ specifically mentions potassium and lists 214 mg of potassium in a 5-gram serving according to its nutritional analysis.';
     }
 
     if (/pregnant|pregnancy|prenatal|unborn baby|buntis|pagbubuntis/.test(t)) {
@@ -83,7 +83,7 @@
 
     /* BLOOD SUGAR / HEART / OTHER HEALTH CONCERNS */
     if (/diabet|blood sugar|sugar level|glucose|asukal sa dugo|diabetic ba/.test(t)) {
-      return 'For diabetes or blood-sugar concerns, the FAQ discusses SANTÉ Pure Barley as a whole-food supplement and reports no known adverse effects associated with blood sugar levels. 🌿 But it is **not diabetes medicine**. If you take blood-sugar medication or have concerns about your glucose, please check with your healthcare professional first.';
+      return 'Yes, a person with diabetes may take SANTÉ Pure Barley as a food supplement. 🌿 The SANTÉ product information discusses Barley for people with diabetes and blood-sugar concerns and describes it as a whole-food supplement.\n\nSANTÉ Barley is not diabetes medicine and should not replace prescribed treatment. If you take blood-sugar medication or closely monitor your glucose, please check with your healthcare professional before adding any supplement. 💚\n\nWould you like me to explain how SANTÉ Barley is commonly taken or what nutrients it contains?';
     }
 
     if (/high blood pressure|hypertension|blood pressure|cholesterol|ldl|mataas na presyon/.test(t)) {
@@ -145,7 +145,7 @@
     }
 
     if (/prepared|prepare a large amount|keep it in the refrigerator|after mixing|20 minutes/.test(t)) {
-      return 'The supplied FAQ recommends drinking SANTÉ Barley soon after mixing and says to consume the prepared drink within about **20 minutes**. 😊 So it’s better to mix it when you’re ready to drink it.';
+      return 'The supplied FAQ recommends drinking SANTÉ Barley soon after mixing and says to consume the prepared drink within about 20 minutes. 😊 So it’s better to mix it when you’re ready to drink it.';
     }
 
     if (/chlorophyll do|what does chlorophyll do|green|why so green/.test(t)) {
