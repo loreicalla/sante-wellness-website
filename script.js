@@ -147,3 +147,78 @@
     init();
   }
 })();
+
+/* Connect With Me: offer direct messaging choices without changing the existing contact section. */
+(function () {
+  function initConnectChooser() {
+    var buttons = document.querySelectorAll('.lore-buttons a.btn-primary');
+    if (!buttons.length || document.getElementById('lore-connect-chooser')) return;
+
+    var style = document.createElement('style');
+    style.textContent = [
+      '#lore-connect-chooser{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(15,35,28,.38);backdrop-filter:blur(4px)}',
+      '#lore-connect-chooser.open{display:flex}',
+      '.lore-connect-card{width:min(430px,100%);background:#fff;border-radius:24px;padding:28px;box-shadow:0 25px 80px rgba(0,0,0,.24);position:relative}',
+      '.lore-connect-close{position:absolute;right:16px;top:12px;border:0;background:transparent;color:#19352a;font-size:28px;line-height:1;cursor:pointer}',
+      '.lore-connect-card h3{margin:0 35px 8px 0;color:#19352a;font-size:24px}',
+      '.lore-connect-card p{margin:0 0 20px;color:#64716b;line-height:1.55}',
+      '.lore-connect-options{display:grid;gap:10px}',
+      '.lore-connect-option{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;border:1px solid #d9e5de;border-radius:14px;background:#fff;color:#19352a;text-align:left;text-decoration:none;font:inherit;cursor:pointer;transition:.2s ease}',
+      '.lore-connect-option:hover{border-color:#1f7a4d;transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,122,77,.10)}',
+      '.lore-connect-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:#eef7f1;font-size:20px;flex:0 0 38px}',
+      '.lore-connect-option strong{display:block;font-size:15px}',
+      '.lore-connect-option span{display:block;font-size:12px;color:#6b7771;margin-top:2px}',
+      '@media(max-width:680px){#lore-connect-chooser{padding:16px}.lore-connect-card{padding:24px 18px;border-radius:20px}.lore-connect-card h3{font-size:21px}.lore-connect-option{padding:13px 12px}}'
+    ].join('');
+    document.head.appendChild(style);
+
+    var root = document.createElement('div');
+    root.id = 'lore-connect-chooser';
+    root.setAttribute('aria-hidden', 'true');
+    root.innerHTML = '<div class="lore-connect-card" role="dialog" aria-modal="true" aria-labelledby="lore-connect-title"><button class="lore-connect-close" type="button" aria-label="Close">×</button><h3 id="lore-connect-title">How would you like to connect?</h3><p>Choose the channel that works best for you. I’ll be happy to connect with you.</p><div class="lore-connect-options"><a class="lore-connect-option" href="https://wa.me/639613552176" target="_blank" rel="noopener"><span class="lore-connect-icon">💬</span><span><strong>WhatsApp</strong><span>Chat with Lore directly</span></span></a><a class="lore-connect-option" href="viber://chat?number=%2B639613552176"><span class="lore-connect-icon">💜</span><span><strong>Viber</strong><span>Message +63 961 355 2176</span></span></a><a class="lore-connect-option" href="https://m.me/SanteWellnessInternational" target="_blank" rel="noopener"><span class="lore-connect-icon">💙</span><span><strong>Facebook Messenger</strong><span>SANTÉ Wellness International</span></span></a><button class="lore-connect-option" type="button" id="lore-connect-chat"><span class="lore-connect-icon">🤖</span><span><strong>Live Chat Assistant</strong><span>Chat with Lore’s SANTÉ Assistant</span></span></button></div></div>';
+    document.body.appendChild(root);
+
+    var close = root.querySelector('.lore-connect-close');
+    function closeChooser() {
+      root.classList.remove('open');
+      root.setAttribute('aria-hidden', 'true');
+    }
+    function openChooser(event) {
+      event.preventDefault();
+      root.classList.add('open');
+      root.setAttribute('aria-hidden', 'false');
+    }
+
+    buttons.forEach(function (button) {
+      if (button.dataset.connectChooserReady === 'true') return;
+      button.dataset.connectChooserReady = 'true';
+      button.addEventListener('click', openChooser);
+    });
+
+    close.addEventListener('click', closeChooser);
+    root.addEventListener('click', function (event) {
+      if (event.target === root) closeChooser();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeChooser();
+    });
+
+    root.querySelector('#lore-connect-chat').addEventListener('click', function () {
+      closeChooser();
+      var launcher = document.querySelector('.lore-chat-launcher');
+      if (launcher) launcher.click();
+    });
+  }
+
+  function init() {
+    initConnectChooser();
+    setTimeout(initConnectChooser, 500);
+    setTimeout(initConnectChooser, 1500);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
