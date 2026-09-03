@@ -5,6 +5,7 @@
   'use strict';
 
   var processed = new WeakSet();
+  var handledUsers = new WeakSet();
 
   function getLastUserMessage() {
     var users = document.querySelectorAll('.lore-chat-message.user');
@@ -35,6 +36,20 @@
     el.appendChild(wrap);
   }
 
+  function expertReply() {
+    return 'Hmm, that’s a question I don’t want to guess on. 😊 I want to make sure your concern is addressed properly.\n\nPlease talk directly to Lore, the SANTÉ Wellness expert, via WhatsApp or Viber so your concern can be addressed right away. 💚\n\nYour concern deserves a proper answer — Lore can assist you personally.';
+  }
+
+  function showExpertFallback(messages) {
+    if (!messages) return;
+    var el = document.createElement('div');
+    el.className = 'lore-chat-message bot';
+    el.textContent = expertReply();
+    messages.appendChild(el);
+    addExpertButtons(el);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
   function getReplacement(botText) {
     var userText = getLastUserMessage();
 
@@ -43,9 +58,9 @@
       return 'Yes, I understand what you mean 😊 If you’re asking whether a sports person can take SANTÉ Barley, the FAQ doesn’t specifically give athlete or sports-specific guidance. It describes Barley as a whole-food supplement with naturally occurring nutrients, rather than as a sports supplement. 🌿\n\nSo I wouldn’t want to promise a special performance benefit for athletes. If you have a medical condition, take medication, or follow a specific sports nutrition plan, it’s best to check with your healthcare professional or sports nutritionist.\n\nAre you asking because you’re currently training, or because you’re looking for something to add to your daily nutrition routine?';
     }
 
-    /* Escalate questions that the bot cannot answer confidently to Lore the expert. */
+    /* Escalate generic or unsupported answers to Lore the expert. */
     if (/I can answer many common SANTÉ Barley questions from our FAQ/i.test(botText) || /Try asking things like/i.test(botText)) {
-      return 'Hmm, that’s a question I don’t want to guess on. 😊 I want to make sure your concern is addressed properly.\n\nPlease talk directly to Lore, the SANTÉ Wellness expert, via WhatsApp or Viber, and she can assist you personally. 💚\n\nYour concern deserves a proper answer — and Lore can help you right away.';
+      return expertReply();
     }
 
     return null;
@@ -69,10 +84,38 @@
     document.querySelectorAll('.lore-chat-message.bot').forEach(process);
   }
 
+  function watchUnansweredQuestions() {
+    var messages = document.querySelector('.lore-chat-messages');
+    if (!messages) return;
+
+    var observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        Array.prototype.slice.call(mutation.addedNodes).forEach(function (node) {
+          if (!node || node.nodeType !== 1) return;
+
+          if (node.classList && node.classList.contains('lore-chat-message') && node.classList.contains('user')) {
+            if (handledUsers.has(node)) return;
+            handledUsers.add(node);
+
+            var botCountBefore = messages.querySelectorAll('.lore-chat-message.bot').length;
+            setTimeout(function () {
+              var botCountAfter = messages.querySelectorAll('.lore-chat-message.bot').length;
+              if (botCountAfter === botCountBefore) {
+                showExpertFallback(messages);
+              }
+            }, 3000);
+          }
+        });
+      });
+      scan();
+    });
+
+    observer.observe(messages, { childList: true, subtree: true });
+  }
+
   function init() {
     scan();
-    var observer = new MutationObserver(function () { scan(); });
-    observer.observe(document.body, { childList: true, subtree: true });
+    watchUnansweredQuestions();
     setTimeout(scan, 300);
     setTimeout(scan, 1000);
   }
