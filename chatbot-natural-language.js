@@ -31,7 +31,7 @@
     [/the FAQ gives/g, 'the general serving guidance gives'],
     [/The FAQ’s nutritional analysis/g, 'The product nutritional information'],
     [/the FAQ’s nutritional analysis/g, 'the product nutritional information'],
-    [/The FAQ's nutritional analysis/g, 'The product nutritional information'],
+    [/The FAQ's nutritional analysis/g, 'the product nutritional information'],
     [/the FAQ's nutritional analysis/g, 'the product nutritional information'],
     [/The FAQ attributes/g, 'The product information attributes'],
     [/the FAQ attributes/g, 'the product information attributes'],
@@ -48,6 +48,19 @@
     return result;
   }
 
+  function isAthleteQuestion(text) {
+    var t = (text || '').toLowerCase();
+    return /\b(sports? person|sportsperson|athlete|athletes|triathlete|triathlon|runner|runners|running|run|jog|jogging|walk|walking|exercise|exercises|workout|work out|gym)\b/.test(t) ||
+      /sports? person|athlete|triathlete|takbo|tumatakbo|nag-?eexercise|nag-?exercise|nagwo-?workout|nag-?gym|naglalakad|naglalakad/.test(t);
+  }
+
+  function athleteAnswer(language) {
+    if (language === 'tl') {
+      return 'Oo! 😊 Puwedeng inumin ang SANTÉ Barley ng athletes at ng mga taong active sa sports. Ginagamit din ito ng Team SANTÉ triathletes. Kahit runner ka, mahilig maglakad, o regular na nag-e-exercise, maaari itong maging bahagi ng daily nutrition mo.\n\n🏃 Simple benefits:\n• 💪 May amino acids na tumutulong sa muscle repair at development.\n• ⚡ May magnesium at B-vitamins na tumutulong sa normal energy production.\n• 🌿 May natural nutrients tulad ng chlorophyll, iron, at minerals na sumusuporta sa katawan.\n• 🛡️ May antioxidants na tumutulong protektahan ang cells laban sa stress mula sa physical activity.\n\nHindi ito kapalit ng proper food, water, at rest—supportive nutrition lang ito para sa active lifestyle. 😊';
+    }
+    return 'Yes! 😊 SANTÉ Barley can be taken by athletes and people who are active in sports. It is also taken by Team SANTÉ triathletes. Whether you run, walk, or exercise regularly, it can be part of your daily nutrition.\n\n🏃 Simple benefits:\n• 💪 Has amino acids that help support muscle repair and development.\n• ⚡ Has magnesium and B-vitamins that help support normal energy production.\n• 🌿 Has natural nutrients like chlorophyll, iron, and minerals that support the body.\n• 🛡️ Has antioxidants that help protect cells from stress caused by physical activity.\n\nIt is not a replacement for proper food, water, or rest—it is supportive nutrition for an active lifestyle. 😊';
+  }
+
   function process(el) {
     if (!el || processed.has(el)) return;
     processed.add(el);
@@ -57,8 +70,29 @@
     if (revised !== original) el.textContent = revised;
   }
 
+  function scanAthleteAnswers() {
+    var messages = Array.prototype.slice.call(document.querySelectorAll('.lore-chat-message'));
+    var lastUser = null;
+    var lastBot = null;
+
+    messages.forEach(function (el) {
+      if (el.classList.contains('user')) lastUser = el;
+      if (el.classList.contains('bot')) lastBot = el;
+    });
+
+    if (!lastUser || !lastBot || !isAthleteQuestion(lastUser.textContent)) return;
+
+    var key = lastUser.textContent.trim() + '|' + lastBot.textContent.trim();
+    if (lastBot.dataset.athletePolished === key) return;
+
+    var language = /\b(paano|maaari|puwede|pwede|athlete|sports?|takbo|tumatakbo|nag-?eexercise|nag-?exercise|nagwo-?workout|nag-?gym|naglalakad)\b/i.test(lastUser.textContent) ? 'tl' : 'en';
+    lastBot.textContent = athleteAnswer(language);
+    lastBot.dataset.athletePolished = key;
+  }
+
   function scan() {
     document.querySelectorAll('.lore-chat-message.bot').forEach(process);
+    scanAthleteAnswers();
   }
 
   function init() {
