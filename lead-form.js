@@ -1,3 +1,13 @@
+/* Load Meta Pixel once while preserving the existing website form and integrations. */
+(function(){
+  if(window.__santeMetaPixelLoaded || window.fbq) return;
+  window.__santeMetaPixelLoaded=true;
+  var script=document.createElement('script');
+  script.src='meta-pixel.js?v=20260903';
+  script.async=true;
+  document.head.appendChild(script);
+})();
+
 (function(){
   const form=document.getElementById('leadForm');
   if(!form)return;
