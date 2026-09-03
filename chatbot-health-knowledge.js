@@ -1,5 +1,6 @@
-/* Health-topic knowledge layer for Lore’s SANTÉ Assistant.
-   Adds simple answers from the supplied SANTÉ product information without replacing the core chatbot. */
+/* Health + FAQ knowledge layer for Lore’s SANTÉ Assistant.
+   This layer only replaces the answer to a detected health/product question.
+   It does not replace the existing chatbot UI, menus, business flows, or product engine. */
 (function () {
   'use strict';
 
@@ -11,54 +12,144 @@
   }
 
   function answer(text) {
-    var t = (text || '').toLowerCase();
+    var t = (text || '').toLowerCase().trim();
 
-    if (/kidney|renal|bato/.test(t)) {
-      return 'Kung may kidney disease, kidney problem, o renal failure, mas mabuting magtanong muna sa healthcare professional bago uminom ng SANTÉ Barley. 🌿 May potassium ang Barley, kaya mahalagang malaman kung bagay ito sa iyong kondisyon.';
+    /* ATHLETES / SPORTS / EXERCISE */
+    if (/athlete|athletes|sports person|sport person|sportsman|sportswoman|triathlete|runner|running|run |jog|walking|walk |exercise|workout|gym|training/.test(t)) {
+      return 'Yes! 🏃‍♀️🌿 SANTÉ Barley can be part of a wellness routine for athletes and active people. SANTÉ has a triathlete team that takes SANTÉ Barley, and it can also fit the routine of people who run, walk, exercise, or train.\n\nIn simple terms, Barley provides naturally occurring nutrients such as amino acids, minerals, B-vitamins and antioxidants. It is a food supplement, not a medicine or a replacement for proper food, training and rest.';
     }
 
-    if (/gluten|gluten.?free|celiac/.test(t)) {
-      return 'Yes 😊 The product information says SANTÉ Pure Barley is made from young barley grass leaves, not mature barley grain, and the ingredients are stated to contain no gluten. 🌿 If you have a known grass allergy, it’s best to check with a healthcare professional first.';
+    /* PREPARATION / HOW TO TAKE */
+    if (/how do you take barley|how to take barley|how to consume barley|how do i take barley|how should i take barley|how to drink barley|paano inumin|paano ito inumin|paano gamitin|empty stomach|walang laman ang tiyan/.test(t)) {
+      return 'Sure! 😊 Here’s the simple way:\n\n🌿 Take SANTÉ Pure Barley on an empty stomach — about 20 minutes before a meal or about 2 hours after.\n💧 Use cold or room-temperature liquid and sip it slowly.\n🥄 For general use, the FAQ gives 1 teaspoon (3g) twice a day, 30 minutes before a meal.\n\nIf you have a medical condition or take medication, check with your healthcare professional before adding a supplement.';
     }
 
-    if (/allerg|grass allergy|barley allergy|allergy/.test(t)) {
-      return 'Most people can use SANTÉ Barley, but the product information notes that people with grass allergies may rarely react. 🌿 If you have a known allergy or have reacted to it before, please check with a healthcare professional before using it.';
+    if (/hot water|warm water|iced water|cold water|room temperature|hot beverage|hot drink|mainit na tubig|maligamgam|malamig na tubig/.test(t)) {
+      return 'For preparation, the FAQ recommends cold or room-temperature liquid. 💧 It advises avoiding hot, warm, iced, or hot beverages because the product guidance says heat can affect its live enzymes and nutrients.';
     }
 
-    if (/diabet|blood sugar|sugar level|glucose/.test(t)) {
-      return 'If you have diabetes or you’re managing your blood sugar, SANTÉ Barley is a food supplement—not a medicine for diabetes. 🌿 The product information reports no known adverse effects associated with blood sugar levels, but if you take diabetes medication or have concerns about your glucose, please check with your healthcare professional before adding a supplement.';
+    if (/storage|store barley|refrigerator|refrigerate|where should i store|saan itago|ref/.test(t)) {
+      return 'Easy! 😊 Keep SANTÉ Barley away from moisture and sunlight and keep the container tightly closed. The FAQ advises against refrigerator storage because condensation may affect the product.';
     }
 
-    if (/high blood pressure|hypertension|blood pressure|cholesterol|ldl/.test(t)) {
-      return 'SANTÉ Barley is a food supplement that provides naturally occurring nutrients, including fiber and antioxidants. 🌿 It should not be used as a treatment or replacement for prescribed medicine for high blood pressure or cholesterol. If you have either condition, continue your medical care and ask your healthcare professional whether a supplement is appropriate for you.';
+    if (/shelf life|expire|expiration|expiry|how long does barley retain|ilang taon/.test(t)) {
+      return 'Yes 😊 The FAQ states that SANTÉ Pure Barley has a **3-year shelf life** when stored properly.';
     }
 
-    if (/gout|uric acid|inflammation|joint|kasukasuan/.test(t)) {
-      return 'SANTÉ Barley provides naturally occurring nutrients and antioxidants. 🌿 The product information discusses it in relation to inflammation and uric acid, but it should not be treated as a cure for gout or joint disease. If you have gout or high uric acid, please follow your healthcare professional’s advice.';
+    if (/calories|how many calories|20 calories|calorie/.test(t)) {
+      return 'SANTÉ Pure Barley has **20 calories per serving**, according to the supplied FAQ. 🌿';
     }
 
-    if (/anemia|anaemia|red blood cell|hemoglobin|haemoglobin/.test(t)) {
-      return 'SANTÉ Barley contains nutrients such as iron, B-vitamins and chlorophyll. 🌿 However, it should not be used as a treatment for anemia. If you have low red blood cells or low iron, it’s important to get the cause checked by a healthcare professional.';
+    if (/caffeine|contains caffeine|may caffeine|may kape/.test(t)) {
+      return 'Nope 😊 **SANTÉ Pure Barley contains no caffeine**, according to the FAQ. Some customers report feeling more energetic, but that is different from a caffeine effect.';
     }
 
-    if (/immune|immunity|immune system|impeksyon|infection/.test(t)) {
-      return 'SANTÉ Barley contains naturally occurring nutrients and antioxidants, including vitamin C and zinc according to the product information. 🌿 These nutrients support normal body functions, but Barley is not a treatment for infections or illness.';
+    if (/meal replacement|replace a meal|instead of food|pamalit sa pagkain/.test(t)) {
+      return 'No 😊 SANTÉ Pure Barley is **not meant to replace a meal**. The FAQ says it should be treated as a supplement and part of an overall diet.';
     }
 
-    if (/constipat|diarrhea|diarrhoea|digest|digestion|acid reflux|reflux|stomach|tiyan|colon|bowel/.test(t)) {
-      return 'SANTÉ Barley is a whole-food supplement with naturally occurring nutrients and fiber. 🌿 The product information discusses it in relation to digestion and regularity. If you have persistent, severe, or worsening stomach symptoms, it’s better to get medical advice rather than rely on a supplement alone.';
+    if (/weight loss|lose weight|slimming|papayat|pampapayat|timbang/.test(t)) {
+      return 'The FAQ says SANTÉ Pure Barley has 20 calories per serving and can be included in a weight-management program. 🌿 It should not be treated as a guaranteed weight-loss product or a replacement for a balanced diet.';
+    }
+
+    if (/capsules|capsule|powder|difference between capsules|capsule vs powder|pulbos|kapsula/.test(t)) {
+      return 'The FAQ says the capsules and juice powder are the same product. 🌿 The powder is instantly soluble and is described in the FAQ as being assimilated more rapidly than the capsules. Choose the form that is easier for you to use consistently.';
+    }
+
+    if (/taste|what does it taste like|masarap|lasa/.test(t)) {
+      return 'The taste can vary because SANTÉ Barley is a natural product. 😊 If you’re new to it, the FAQ suggests starting with a small amount. Some people mix it with fruit juice, and capsules are another option if you prefer not to taste the powder.';
+    }
+
+    /* SAFETY / MEDICATION / ALLERGIES */
+    if (/gluten|gluten.?free|celiac|may gluten/.test(t)) {
+      return 'The supplied FAQ says the juice powder comes from young barley grass leaves, not mature barley grain, and states that its ingredients contain no gluten. 🌿 If you have a known grass allergy or a previous reaction, please check with a healthcare professional before using it.';
+    }
+
+    if (/allerg|grass allergy|barley allergy|allergy sa damo/.test(t)) {
+      return 'Most people can use SANTÉ Barley, but the FAQ notes that people with grass allergies may rarely react. 🌿 If you have a known allergy or reacted before, please check with a healthcare professional before using it.';
+    }
+
+    if (/medication|medicine|taking medication|take with medicine|gamot|umiinom ng gamot/.test(t)) {
+      return 'If you take medication, I’d be careful here. 😊 Medication and supplement considerations can vary from person to person. The safest step is to check with your healthcare professional before adding SANTÉ Barley to your routine.';
+    }
+
+    if (/kidney|renal failure|kidney disease|kidney disorder|bato|renal/.test(t)) {
+      return 'If you have kidney disease, a kidney disorder, or renal failure, please ask your healthcare professional before taking SANTÉ Barley. 💚 The FAQ specifically mentions potassium and lists **214 mg of potassium in a 5-gram serving** according to its nutritional analysis.';
+    }
+
+    if (/pregnant|pregnancy|prenatal|unborn baby|buntis|pagbubuntis/.test(t)) {
+      return 'The supplied FAQ mentions SANTÉ Pure Barley as a prenatal supplement. 💚 Because pregnancy has special nutritional and medical needs, please confirm with your prenatal healthcare provider before taking any supplement.';
+    }
+
+    /* BLOOD SUGAR / HEART / OTHER HEALTH CONCERNS */
+    if (/diabet|blood sugar|sugar level|glucose|asukal sa dugo|diabetic ba/.test(t)) {
+      return 'For diabetes or blood-sugar concerns, the FAQ discusses SANTÉ Pure Barley as a whole-food supplement and reports no known adverse effects associated with blood sugar levels. 🌿 But it is **not diabetes medicine**. If you take blood-sugar medication or have concerns about your glucose, please check with your healthcare professional first.';
+    }
+
+    if (/high blood pressure|hypertension|blood pressure|cholesterol|ldl|mataas na presyon/.test(t)) {
+      return 'The supplied product information discusses SANTÉ Barley as a source of naturally occurring nutrients, fiber and antioxidants in relation to heart-health concerns. 🌿 It is a food supplement, not a treatment for high blood pressure or high cholesterol. Keep following your healthcare professional’s advice and ask whether a supplement is appropriate for you.';
+    }
+
+    if (/gout|uric acid|inflammation|joint|kasukasuan|pamamaga/.test(t)) {
+      return 'The supplied product information discusses barley grass in relation to inflammation and uric acid. 🌿 SANTÉ Barley is a food supplement, not a cure for gout or joint disease. If you have gout or high uric acid, please follow your healthcare professional’s advice.';
+    }
+
+    if (/anemia|anaemia|red blood cell|hemoglobin|haemoglobin|mababang dugo/.test(t)) {
+      return 'SANTÉ Barley contains nutrients such as iron, B-vitamins and chlorophyll according to the supplied product information. 🌿 But it should not be used as a treatment for anemia. If you have low blood or low iron, it is important to have the cause checked by a healthcare professional.';
+    }
+
+    if (/immune|immunity|immune system|impeksyon|infection|mahina ang resistensya/.test(t)) {
+      return 'SANTÉ Barley contains naturally occurring nutrients and antioxidants, including vitamin C and zinc according to the supplied product information. 🌿 These nutrients are part of normal body functions, but Barley is not a treatment for infection or illness.';
+    }
+
+    if (/constipat|diarrhea|diarrhoea|digest|digestion|acid reflux|reflux|stomach|tiyan|colon|bowel|pagtatae/.test(t)) {
+      return 'SANTÉ Barley is a whole-food supplement with naturally occurring nutrients and fiber. 🌿 The FAQ discusses it in relation to digestion and regularity. If stomach or bowel symptoms are severe, persistent, or getting worse, please get medical advice rather than relying on a supplement alone.';
     }
 
     if (/fatigue|tired|pagod|energy|enerhiya/.test(t)) {
-      return 'SANTÉ Barley provides naturally occurring nutrients such as B-vitamins and minerals that are part of normal energy metabolism. 🌿 It is not a medicine for chronic fatigue. If you are unusually or persistently tired, it’s best to discuss the cause with a healthcare professional.';
+      return 'SANTÉ Barley provides naturally occurring nutrients such as B-vitamins and minerals that are involved in normal energy metabolism. 🌿 It is not a medicine for chronic fatigue. If you are unusually or persistently tired, it is best to discuss the cause with a healthcare professional.';
     }
 
-    if (/prenatal|pregnan|buntis|pregnancy/.test(t)) {
-      return 'The product information mentions SANTÉ Barley as a prenatal supplement. 💚 Because pregnancy has individual nutritional and medical needs, please confirm with your prenatal healthcare provider before taking any supplement.';
-    }
-
+    /* DETOX / CLEANSING */
     if (/detox|cleansing|cleanse|cleansing reaction/.test(t)) {
-      return 'The supplied product information describes possible “cleansing/detoxification” symptoms, but that wording is a product claim—not a medical diagnosis. 💚 If you develop vomiting, diarrhea, rash, severe headache, or other concerning symptoms after taking a supplement, stop and seek appropriate medical advice.';
+      return 'The supplied product information describes possible “cleansing/detoxification” symptoms. 💚 That is a claim in the product material, not a medical diagnosis. If you develop vomiting, diarrhea, rash, severe headache, or other concerning symptoms after taking a supplement, stop and seek appropriate medical advice.';
+    }
+
+    /* NUTRIENTS / PRODUCT INFORMATION */
+    if (/digestive enzymes|enzymes|amylase|enzyme/.test(t)) {
+      return 'Yes 😊 The FAQ states that SANTÉ Pure Barley contains many enzymes, including digestive enzymes such as amylase.';
+    }
+
+    if (/antioxidant|antioxidants|orac|free radicals|sod|chlorophyll|beta carotene/.test(t)) {
+      return 'The FAQ describes SANTÉ Barley as containing naturally occurring antioxidants and nutrients such as beta-carotene, chlorophyll, SOD, catalase, Lutonarin, Saponarin, polyphenol oxidase, vitamin E, phosphorus and zinc. 🌿 These are described as naturally occurring in the product, not added ingredients.';
+    }
+
+    if (/why barley juice|why barley|what is barley good for|benefits of barley|benefits|bakit barley|ano ang benefits/.test(t)) {
+      return 'In simple terms, the supplied FAQ describes SANTÉ Barley as a whole-food supplement with naturally occurring vitamins, minerals, enzymes, protein, chlorophyll, antioxidants and other plant nutrients. 🌿 It is meant to complement an overall healthy diet and lifestyle.';
+    }
+
+    if (/how is barley juice powder processed|how is barley processed|processed|processing|organic|organically grown|pesticide|herbicide|fertilizer/.test(t)) {
+      return 'According to the FAQ, the barley grass is organically grown without chemical pesticides, herbicides or fertilizers. 🌿 It is harvested when the leaves have a broad spectrum of nutrients, then low-temperature processing is used to make the concentrate juice powder.';
+    }
+
+    if (/after meal|with meal|take after meals|take with meals/.test(t)) {
+      return 'The FAQ says you can drink SANTÉ Barley anytime, but suggests taking it alone rather than with a meal so it can be taken without other foods present. 🌿 For the general routine, the FAQ gives 1 teaspoon (3g) twice a day, 30 minutes before a meal.';
+    }
+
+    if (/fasting|hallelujah diet/.test(t)) {
+      return 'The supplied FAQ says SANTÉ Pure Barley can be used during fasting and is compatible with the Hallelujah Diet. 🌿 If your fasting is medically supervised or you have a health condition, follow your healthcare professional’s guidance.';
+    }
+
+    if (/hot drink|cranberry|prune juice|carbonated|softdrink|soda/.test(t)) {
+      return 'The FAQ recommends not mixing SANTÉ Pure Barley with hot drinks, cranberry or prune juice, or carbonated drinks. 🌿 For the simplest preparation, use cold or room-temperature liquid.';
+    }
+
+    if (/prepared|prepare a large amount|keep it in the refrigerator|after mixing|20 minutes/.test(t)) {
+      return 'The supplied FAQ recommends drinking SANTÉ Barley soon after mixing and says to consume the prepared drink within about **20 minutes**. 😊 So it’s better to mix it when you’re ready to drink it.';
+    }
+
+    if (/chlorophyll do|what does chlorophyll do|green|why so green/.test(t)) {
+      return 'The green color comes from chlorophyll. 🌿 The FAQ describes chlorophyll as a naturally occurring component of barley grass and lists it among the product’s naturally occurring nutrients.';
     }
 
     return null;
@@ -67,8 +158,10 @@
   function process(el) {
     if (!el || processed.has(el)) return;
     processed.add(el);
+
     var user = lastUserText();
     if (!user) return;
+
     var replacement = answer(user);
     if (replacement) el.textContent = replacement;
   }
