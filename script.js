@@ -40,7 +40,7 @@
               load('product-flip.js?v=20260903', function () {
                 loadCss('package-polish.css?v=20260826', function () {});
                 loadCss('chatbot.css?v=20260828', function () {
-                  load('chatbot.js?v=20260828', function () {});
+                  load('chatbot.js?v=20260903', function () {});
                 });
               });
             });
