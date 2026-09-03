@@ -81,6 +81,11 @@
       return 'The supplied FAQ mentions SANTÉ Pure Barley as a prenatal supplement. 💚 Because pregnancy has special nutritional and medical needs, please confirm with your prenatal healthcare provider before taking any supplement.';
     }
 
+    /* ULcer / specific medical-condition questions: route to Lore instead of guessing. */
+    if (/\bulcer\b|ulcers|peptic ulcer|gastric ulcer|duodenal ulcer|ulcerative/.test(t)) {
+      return 'That’s an important health question, and I don’t want to guess or give you the wrong advice. 💚 For concerns involving an ulcer, please talk directly to Lore, the SANTÉ Wellness expert, via WhatsApp or Viber so your concern can be addressed properly and you can get the right guidance for your situation.';
+    }
+
     /* BLOOD SUGAR / HEART / OTHER HEALTH CONCERNS */
     if (/diabet|blood sugar|sugar level|glucose|asukal sa dugo|diabetic ba/.test(t)) {
       return 'Yes, a person with diabetes may take SANTÉ Pure Barley as a food supplement. 🌿 The SANTÉ product information discusses Barley for people with diabetes and blood-sugar concerns and describes it as a whole-food supplement.\n\nSANTÉ Barley is not diabetes medicine and should not replace prescribed treatment. If you take blood-sugar medication or closely monitor your glucose, please check with your healthcare professional before adding any supplement. 💚\n\nWould you like me to explain how SANTÉ Barley is commonly taken or what nutrients it contains?';
