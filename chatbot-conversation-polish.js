@@ -29,7 +29,6 @@
     var viber = document.createElement('a');
     viber.href = 'viber://chat?number=%2B639613552176';
     viber.textContent = '💜 Viber Lore';
-    viber.textContent = '💜 Viber Lore';
     viber.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:999px;background:#fff;color:#3f7f55;text-decoration:none;font-weight:700;font-size:14px;border:1px solid #d6e2da;';
 
     wrap.appendChild(whatsapp);
