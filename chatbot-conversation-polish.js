@@ -29,6 +29,7 @@
     var viber = document.createElement('a');
     viber.href = 'viber://chat?number=%2B639613552176';
     viber.textContent = '💜 Viber Lore';
+    viber.textContent = '💜 Viber Lore';
     viber.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:999px;background:#fff;color:#3f7f55;text-decoration:none;font-weight:700;font-size:14px;border:1px solid #d6e2da;';
 
     wrap.appendChild(whatsapp);
@@ -74,9 +75,12 @@
     var replacement = getReplacement(original);
     if (replacement) {
       el.textContent = replacement;
-      if (/I want to make sure your concern is addressed properly/i.test(replacement)) {
-        addExpertButtons(el);
-      }
+    }
+
+    /* If any health/product reply escalates the visitor to Lore, show the contact choices directly under that reply. */
+    var finalText = el.textContent || '';
+    if (/via WhatsApp or Viber/i.test(finalText) || /talk directly to Lore/i.test(finalText)) {
+      addExpertButtons(el);
     }
   }
 
