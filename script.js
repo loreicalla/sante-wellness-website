@@ -228,3 +228,26 @@
     init();
   }
 })();
+
+/* Google Analytics 4: sitewide measurement for santewithlore.com. */
+(function () {
+  var GA_ID = 'G-RX259BNVDM';
+  if (window.__santeGAInitialized) return;
+  window.__santeGAInitialized = true;
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function () {
+    window.dataLayer.push(arguments);
+  };
+
+  var gaScript = document.createElement('script');
+  gaScript.async = true;
+  gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
+  document.head.appendChild(gaScript);
+
+  window.gtag('js', new Date());
+  window.gtag('config', GA_ID, {
+    send_page_view: true,
+    cookie_flags: 'SameSite=None;Secure'
+  });
+})();
