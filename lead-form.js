@@ -88,15 +88,41 @@
 
       if(!response.ok) throw new Error('Zoho CRM returned HTTP '+response.status);
 
-      // Zoho may return JSON or text depending on the configured success action.
-      // Reading the body confirms the request completed without changing the
-      // existing website success/WhatsApp behavior.
       await response.text();
       return true;
     }catch(error){
       console.error('Zoho CRM lead capture failed',error);
       return false;
     }
+  }
+
+  function trackLead(data){
+    var params={
+      currency:'PHP',
+      method:'website_lead_form',
+      lead_type:data.interest || 'general_information'
+    };
+
+    // Fire after the form has completed its lead-capture work. This avoids
+    // losing the conversion event while the browser is waiting on Sheets/Zoho.
+    if(typeof window.gtag==='function'){
+      window.gtag('event','generate_lead',params);
+      return;
+    }
+
+    // If the Google tag is still loading, retry briefly rather than dropping
+    // the lead event.
+    var attempts=0;
+    var retry=setInterval(function(){
+      attempts++;
+      if(typeof window.gtag==='function'){
+        clearInterval(retry);
+        window.gtag('event','generate_lead',params);
+      }else if(attempts>=10){
+        clearInterval(retry);
+        console.warn('GA4 lead event could not be sent because gtag was unavailable.');
+      }
+    },250);
   }
 
   form.addEventListener('submit',async function(e){
@@ -118,15 +144,6 @@
       sourcePage:window.location.href
     };
 
-    // GA4 conversion event: a valid lead form submission.
-    if(typeof window.gtag==='function'){
-      window.gtag('event','generate_lead',{
-        currency:'PHP',
-        method:'website_lead_form',
-        lead_type:data.interest || 'general_information'
-      });
-    }
-
     const button=form.querySelector('.lead-submit');
     const original=button.textContent;
     button.textContent='Saving your information...';
@@ -138,6 +155,9 @@
       saveToGoogleSheets(data),
       saveToZoho(data)
     ]);
+
+    // Record the GA4 conversion after the lead-capture requests finish.
+    trackLead(data);
 
     window.open(whatsappUrl(data),'_blank','noopener');
     button.textContent='Thank you! Your information is ready for follow-up ✓';
