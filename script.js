@@ -251,3 +251,43 @@
     cookie_flags: 'SameSite=None;Secure'
   });
 })();
+
+/* Google Analytics 4 event tracking for important website actions. */
+(function () {
+  function track(name, params) {
+    if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
+  }
+
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest ? event.target.closest('a') : null;
+    if (!link) return;
+
+    var href = link.getAttribute('href') || '';
+    var text = (link.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 100);
+
+    // Lead CTA/navigation clicks.
+    if (href === '#lead' || /get free information|get info/i.test(text)) {
+      track('select_content', {
+        content_type: 'lead_cta',
+        item_id: 'get_free_information'
+      });
+    }
+
+    // Product/partner destination clicks.
+    if (/partner\.mysante\.com/i.test(href)) {
+      track('select_content', {
+        content_type: 'product_partner_link',
+        item_id: 'sante_partner_store'
+      });
+    }
+
+    // Direct messaging clicks from the Connect With Me chooser and other site links.
+    if (/wa\.me|api\.whatsapp\.com/i.test(href)) {
+      track('contact', { method: 'whatsapp' });
+    } else if (/m\.me\//i.test(href)) {
+      track('contact', { method: 'messenger' });
+    } else if (/^viber:/i.test(href)) {
+      track('contact', { method: 'viber' });
+    }
+  }, true);
+})();
