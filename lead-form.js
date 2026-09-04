@@ -118,6 +118,15 @@
       sourcePage:window.location.href
     };
 
+    // GA4 conversion event: a valid lead form submission.
+    if(typeof window.gtag==='function'){
+      window.gtag('event','generate_lead',{
+        currency:'PHP',
+        method:'website_lead_form',
+        lead_type:data.interest || 'general_information'
+      });
+    }
+
     const button=form.querySelector('.lead-submit');
     const original=button.textContent;
     button.textContent='Saving your information...';
