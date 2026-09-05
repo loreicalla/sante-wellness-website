@@ -103,26 +103,48 @@
       lead_type:data.interest || 'general_information'
     };
 
-    // Fire after the form has completed its lead-capture work. This avoids
-    // losing the conversion event while the browser is waiting on Sheets/Zoho.
+    // GA4: record the website lead conversion.
     if(typeof window.gtag==='function'){
       window.gtag('event','generate_lead',params);
-      return;
+    }else{
+      var attempts=0;
+      var retry=setInterval(function(){
+        attempts++;
+        if(typeof window.gtag==='function'){
+          clearInterval(retry);
+          window.gtag('event','generate_lead',params);
+        }else if(attempts>=10){
+          clearInterval(retry);
+          console.warn('GA4 lead event could not be sent because gtag was unavailable.');
+        }
+      },250);
     }
 
-    // If the Google tag is still loading, retry briefly rather than dropping
-    // the lead event.
-    var attempts=0;
-    var retry=setInterval(function(){
-      attempts++;
-      if(typeof window.gtag==='function'){
-        clearInterval(retry);
-        window.gtag('event','generate_lead',params);
-      }else if(attempts>=10){
-        clearInterval(retry);
-        console.warn('GA4 lead event could not be sent because gtag was unavailable.');
+    // Meta Pixel: send Meta's standard Lead event for ad optimization and
+    // attribution. Wait briefly if the asynchronously loaded Pixel is not ready.
+    function sendMetaLead(){
+      if(typeof window.fbq==='function'){
+        window.fbq('track','Lead',{
+          content_name:'SANTÉ Website Lead Form',
+          content_category:data.interest || 'general_information'
+        });
+        return true;
       }
-    },250);
+      return false;
+    }
+
+    if(!sendMetaLead()){
+      var metaAttempts=0;
+      var metaRetry=setInterval(function(){
+        metaAttempts++;
+        if(sendMetaLead() || metaAttempts>=20){
+          clearInterval(metaRetry);
+          if(metaAttempts>=20 && typeof window.fbq!=='function'){
+            console.warn('Meta Lead event could not be sent because fbq was unavailable.');
+          }
+        }
+      },250);
+    }
   }
 
   form.addEventListener('submit',async function(e){
@@ -156,7 +178,7 @@
       saveToZoho(data)
     ]);
 
-    // Record the GA4 conversion after the lead-capture requests finish.
+    // Record the GA4 and Meta conversion events after lead-capture requests finish.
     trackLead(data);
 
     window.open(whatsappUrl(data),'_blank','noopener');
